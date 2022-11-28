@@ -8,9 +8,6 @@ import 'package:ots_pocket/bloc/user/user_event.dart';
 import 'package:ots_pocket/contactus.dart';
 import 'package:ots_pocket/userProfile.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import 'login_screen.dart';
 import 'main.dart';
@@ -310,7 +307,7 @@ class _MyDrower1 extends State<MyDrower1> {
 
   showAlertDialog(BuildContext context) {
     // Create button
-    Widget okButton = FlatButton(
+    Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         Navigator.of(context).pop();

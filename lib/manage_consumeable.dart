@@ -122,7 +122,7 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        height: 80,
+                        height: 90,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(

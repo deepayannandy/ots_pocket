@@ -10,7 +10,6 @@ import 'package:ots_pocket/consumeables.dart';
 import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/equipments.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
-import 'package:ots_pocket/my_drawer.dart';
 import 'package:ots_pocket/userManagementSceen.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 
@@ -52,19 +51,17 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 40,
         ),
         actions: [
-          FlatButton(
-            textColor: Theme.of(context).primaryColor,
+          IconButton(
             onPressed: () {
               isnotification == true
                   ? Fluttertoast.showToast(msg: "You have some Notifications!")
                   : Fluttertoast.showToast(msg: "There is no Notifications!");
             },
-            child: Icon(
+            icon: Icon(
               isnotification == false
                   ? Icons.notifications_outlined
                   : Icons.notifications,
               color: isnotification == false ? Colors.grey : Colors.red,
-              //shape: CircleBorder(side: BorderSide(color: Colors.transparent)
             ),
           ),
         ],
