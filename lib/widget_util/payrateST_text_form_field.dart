@@ -12,7 +12,7 @@ class PayrateSTTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: payrateSTNumberController,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       maxLength: 10,
       maxLines: null,
       style: TextStyle(

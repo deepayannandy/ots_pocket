@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         elevation: 0.3,
         title: Image.asset(
-          "asset/images/clientImage.jpeg",
+          "asset/images/clientlogo.png",
           height: 40,
         ),
         actions: [

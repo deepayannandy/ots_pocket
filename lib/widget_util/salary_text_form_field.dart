@@ -11,7 +11,7 @@ class SalaryTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: salaryNumberController,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       maxLength: 10,
       maxLines: null,
       style: TextStyle(
@@ -37,7 +37,7 @@ class SalaryTextFormField extends StatelessWidget {
       validator: (value) {
         if (value!.isEmpty) {
           return "Employee Salary is required";
-        } 
+        }
         return null;
       },
     );

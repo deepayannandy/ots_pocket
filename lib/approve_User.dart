@@ -150,7 +150,7 @@ class _UserApprovalState extends State<UserApproval> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        height: widget.pagename == "Manage User" ? 120 : 90,
+                        height: widget.pagename == "Manage User" ? 130 : 100,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -306,8 +306,7 @@ class _UserApprovalState extends State<UserApproval> {
 
   bool patchButtonActive() {
     if (isSelectDesignationTextFormFieldNotEmpty &&
-        ispayrateTextFormFieldNotEmpty &&
-        issalaryTextFormFieldNotEmpty) {
+        (ispayrateTextFormFieldNotEmpty || issalaryTextFormFieldNotEmpty)) {
       return true;
     }
     return false;
