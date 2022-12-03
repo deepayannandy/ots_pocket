@@ -11,10 +11,10 @@ class ConsumeableEvent extends Equatable {
   const ConsumeableEvent();
 }
 
-// class AddConsumeableEvent extends ConsumeableEvent {
-//   final UserRegistration userDetails;
-//   AddConsumeableEvent({required this.userDetails});
-// }
+class AddConsumeableEvent extends ConsumeableEvent {
+  final ConsumeablesDetails condetails;
+  AddConsumeableEvent({required this.condetails});
+}
 
 class ConsumeablePatchEvent extends ConsumeableEvent {
   final ConsumeablesDetails updateDetails;

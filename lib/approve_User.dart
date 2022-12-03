@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ots_pocket/bloc/user/patch_User_details/user_patch_bloc.dart';
 import 'package:ots_pocket/bloc/user/patch_User_details/user_patch_state.dart';
 import 'package:ots_pocket/bloc/user/user_event.dart';
-import 'package:ots_pocket/login_screen.dart';
 import 'package:ots_pocket/models/user_approval_details_model.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
@@ -17,7 +16,9 @@ import 'package:ots_pocket/widget_util/show_toast.dart';
 
 class UserApproval extends StatefulWidget {
   final UserDetails? selectedUserData;
-  const UserApproval({@required this.selectedUserData, Key? key})
+  final String? pagename;
+  const UserApproval(
+      {@required this.selectedUserData, @required this.pagename, Key? key})
       : super(key: key);
 
   @override
@@ -60,6 +61,18 @@ class _UserApprovalState extends State<UserApproval> {
       });
     });
     super.initState();
+
+    if (widget.pagename == "Manage User") {
+      selectDesignationController.text = widget.selectedUserData!.desig!;
+      payrateController.text = widget.selectedUserData!.payrateST
+          .toString()
+          .split('numberDecimal:')[1]
+          .replaceFirst("}", "");
+      salaryController.text = widget.selectedUserData!.salary
+          .toString()
+          .split('numberDecimal:')[1]
+          .replaceFirst("}", "");
+    }
   }
 
   @override
@@ -72,6 +85,7 @@ class _UserApprovalState extends State<UserApproval> {
   @override
   Widget build(BuildContext context) {
     List<String> namepart = widget.selectedUserData!.fullname!.split(" ");
+
     return BlocListener<UserPatchBloc, UserPatchState>(
       listener: (context, state) {
         if (state is UserPatchLoadingState) {
@@ -101,7 +115,7 @@ class _UserApprovalState extends State<UserApproval> {
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
           centerTitle: true,
           title: Text(
-            "User Approval Form",
+            widget.pagename!,
             style: TextStyle(fontSize: 25, color: Colors.black87),
           ),
           leading: IconButton(
@@ -136,7 +150,7 @@ class _UserApprovalState extends State<UserApproval> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        height: 90,
+                        height: widget.pagename == "Manage User" ? 120 : 90,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -144,7 +158,7 @@ class _UserApprovalState extends State<UserApproval> {
                               Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: CircleAvatar(
                                       radius: 30,
                                       child: Text(namepart[0].substring(0, 1) +
@@ -164,9 +178,11 @@ class _UserApprovalState extends State<UserApproval> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "User Name: " +
+                                    "User Name: \n" +
                                         widget.selectedUserData!.fullname!,
-                                    style: TextStyle(fontSize: 18),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 5,
@@ -174,19 +190,42 @@ class _UserApprovalState extends State<UserApproval> {
                                   Text(
                                     "User email: " +
                                         widget.selectedUserData!.email!,
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    "Cost Centre: " +
+                                    "Cost Center: " +
                                         widget.selectedUserData!.empBranch!,
-                                    style: TextStyle(fontSize: 14),
+                                    style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
                                     height: 5,
                                   ),
+                                  widget.pagename == "Manage User"
+                                      ? (Text(
+                                          "Current Payrate: " +
+                                              widget.selectedUserData!.payrateST
+                                                  .toString()
+                                                  .split('numberDecimal:')[1]
+                                                  .replaceFirst("}", " USD"),
+                                          style: TextStyle(fontSize: 12),
+                                        ))
+                                      : Container(),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  widget.pagename == "Manage User"
+                                      ? (Text(
+                                          "Current Salary: " +
+                                              widget.selectedUserData!.salary
+                                                  .toString()
+                                                  .split('numberDecimal:')[1]
+                                                  .replaceFirst("}", " USD"),
+                                          style: TextStyle(fontSize: 12),
+                                        ))
+                                      : Container(),
                                 ],
                               ),
                             ],
@@ -231,8 +270,10 @@ class _UserApprovalState extends State<UserApproval> {
                                 validate();
                               }
                             : null,
-                        child: const Text(
-                          "Approve",
+                        child: Text(
+                          widget.pagename == "User Approval Form"
+                              ? "Approve"
+                              : "Update",
                         ),
                       ),
                       const SizedBox(

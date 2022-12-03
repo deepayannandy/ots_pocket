@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:ots_pocket/login_screen.dart';
-import 'package:ots_pocket/main.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
-import 'package:ots_pocket/widget_util/alert_pop_up_for_confirmation.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends StatefulWidget {
   final UserDetails? loggedinuser;
@@ -63,11 +60,21 @@ class _UserProfileState extends State<UserProfile> {
                     )),
                 Positioned(
                   top: 120,
-                  child: QrImage(
-                    data: widget.loggedinuser!.sId!,
-                    size: 180,
-                    embeddedImage: AssetImage(
-                      "assets/images/userlogo.png",
+                  child: GestureDetector(
+                    onTap: () async {
+                      if (!await launch(
+                          "https://www.t1integrity.com/app/user/search/" +
+                              widget.loggedinuser!.sId!.toString())) {
+                        print("Could not launch");
+                      }
+                    },
+                    child: QrImage(
+                      data: "https://www.t1integrity.com/app/user/search/" +
+                          widget.loggedinuser!.sId!,
+                      size: 180,
+                      embeddedImage: AssetImage(
+                        "assets/images/userlogo.png",
+                      ),
                     ),
                   ),
                 ),
@@ -106,7 +113,7 @@ class _UserProfileState extends State<UserProfile> {
                             height: 5,
                           ),
                           DefaultTextStyle(
-                              child: Text("Cost Centre : " +
+                              child: Text("Cost Center : " +
                                   widget.loggedinuser!.empBranch!),
                               style: TextStyle(
                                   fontSize: 14.0,

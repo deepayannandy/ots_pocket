@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ots_pocket/bloc/branch/branch_bloc.dart';
+import 'package:ots_pocket/bloc/consumeable/add_new_consumeable/add_new_consumeable_bloc.dart';
 import 'package:ots_pocket/bloc/consumeable/get_consumeable_deyails/get_consumeable_details_bloc.dart';
 import 'package:ots_pocket/bloc/consumeable/patch_consumable_details/consumable_patch_bloc.dart';
+import 'package:ots_pocket/bloc/equipment/add_new_equipment/add_new_equipment_bloc.dart';
 import 'package:ots_pocket/bloc/equipment/get_equipments_deyails/get_equipments_details_bloc.dart';
 import 'package:ots_pocket/bloc/equipment/patch_equipments_details/equipments_patch_bloc.dart';
 import 'package:ots_pocket/bloc/login/login_bloc.dart';
@@ -69,6 +71,16 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => EquipmentPatchBloc(
+            repoFactory: RepoFactory(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AddNewConsumeableBloc(
+            repoFactory: RepoFactory(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => AddNewEquipmentBloc(
             repoFactory: RepoFactory(),
           ),
         ),

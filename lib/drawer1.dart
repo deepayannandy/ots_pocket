@@ -103,21 +103,21 @@ class _MyDrower1 extends State<MyDrower1> {
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                     child: Column(
                       children: [
-                        ListTile(
-                          leading: Icon(
-                            CupertinoIcons.moon,
-                            size: 20,
-                            color: Colors.black54,
-                          ),
-                          title: Text(
-                            "Change to Dark mode",
-                            textScaleFactor: 1,
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                          onTap: () {
-                            Fluttertoast.showToast(msg: "Change to Dark Mode");
-                          },
-                        ),
+                        // ListTile(
+                        //   leading: Icon(
+                        //     CupertinoIcons.moon,
+                        //     size: 20,
+                        //     color: Colors.black54,
+                        //   ),
+                        //   title: Text(
+                        //     "Change to Dark mode",
+                        //     textScaleFactor: 1,
+                        //     style: TextStyle(color: Colors.black54),
+                        //   ),
+                        //   onTap: () {
+                        //     Fluttertoast.showToast(msg: "Change to Dark Mode");
+                        //   },
+                        // ),
                         ListTile(
                           leading: Icon(
                             CupertinoIcons.profile_circled,
@@ -165,19 +165,19 @@ class _MyDrower1 extends State<MyDrower1> {
                             //         ));
                           },
                         ),
-                        ListTile(
-                          leading: Icon(
-                            CupertinoIcons.hand_draw,
-                            color: Colors.black54,
-                            size: 20,
-                          ),
-                          title: Text(
-                            "About Us",
-                            textScaleFactor: 1,
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                          onTap: () async {},
-                        ),
+                        // ListTile(
+                        //   leading: Icon(
+                        //     CupertinoIcons.hand_draw,
+                        //     color: Colors.black54,
+                        //     size: 20,
+                        //   ),
+                        //   title: Text(
+                        //     "About Us",
+                        //     textScaleFactor: 1,
+                        //     style: TextStyle(color: Colors.black54),
+                        //   ),
+                        //   onTap: () async {},
+                        // ),
                         ListTile(
                           leading: Icon(
                             CupertinoIcons.phone_circle,
@@ -259,7 +259,7 @@ class _MyDrower1 extends State<MyDrower1> {
                                   //   color: Colors.white,
                                   // ),
                                   title: Text(
-                                "A Product of OT-Software LLC",
+                                "",
                                 textScaleFactor: 1,
                                 style: TextStyle(
                                     color: Colors.black54,

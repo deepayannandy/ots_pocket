@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatelessWidget {
   @override
@@ -12,16 +13,22 @@ class ContactUs extends StatelessWidget {
                 SizedBox(
                   height: 70,
                 ),
-                Image.asset(
-                  "asset/images/clientlogo.png",
-                  fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+                  child: Image.asset(
+                    "asset/images/clientlogo.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                Text(
-                  "Need Help, Contact us",
-                  style: TextStyle(
-                    fontSize: 34,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    "Need Help, Contact us",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -54,7 +61,7 @@ class ContactUs extends StatelessWidget {
                         )),
                   ),
                   onPressed: () async {
-                    // launch('tel://+919027622164');
+                    launch('tel://+919027622164');
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor,

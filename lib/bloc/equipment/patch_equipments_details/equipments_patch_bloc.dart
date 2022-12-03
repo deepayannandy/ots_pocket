@@ -8,7 +8,7 @@ import 'package:ots_pocket/bloc/equipment/equpments_event.dart';
 import 'package:ots_pocket/bloc/equipment/patch_equipments_details/equipments_patch_state.dart';
 import 'package:ots_pocket/config/repo_factory.dart';
 
-class EquipmentPatchBloc extends Bloc<EqupmentsEvent, EquipmentsPatchState> {
+class EquipmentPatchBloc extends Bloc<EquipmentsEvent, EquipmentsPatchState> {
   final RepoFactory? repoFactory;
 
   EquipmentPatchBloc({this.repoFactory})

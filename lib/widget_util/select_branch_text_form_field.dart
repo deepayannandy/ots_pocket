@@ -24,7 +24,7 @@ class SelectBranchTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         hintText: "TX",
-        labelText: "Select Cost Centre",
+        labelText: "Select Cost Center",
         suffixIcon: Icon(
           Icons.arrow_drop_down,
           color: Color(0xFF000000),
@@ -32,7 +32,7 @@ class SelectBranchTextFormField extends StatelessWidget {
       ),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Cost Centre is required";
+          return "Cost Center is required";
         }
         return null;
       },

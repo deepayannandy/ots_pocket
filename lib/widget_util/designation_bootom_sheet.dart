@@ -1,13 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ots_pocket/bloc/branch/branch_bloc.dart';
-import 'package:ots_pocket/bloc/branch/branch_event.dart';
-import 'package:ots_pocket/bloc/branch/branch_state.dart';
-import 'package:ots_pocket/widget_util/app_indicator.dart';
-import 'package:ots_pocket/widget_util/empty_text_widget.dart';
-import 'package:ots_pocket/widget_util/error_text_widget.dart';
 
 class DesignationBottomSheet {
   List<String> designation = ["Manager", "Employee", "HR"];

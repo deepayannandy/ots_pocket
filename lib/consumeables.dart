@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ots_pocket/add_con.dart';
 import 'package:ots_pocket/bloc/consumeable/consumeables_event.dart';
 import 'package:ots_pocket/bloc/consumeable/get_consumeable_deyails/get_consumeable_details_bloc.dart';
 import 'package:ots_pocket/bloc/consumeable/get_consumeable_deyails/get_consumeable_details_state.dart';
@@ -9,8 +10,7 @@ import 'package:ots_pocket/manage_consumeable.dart';
 import 'package:ots_pocket/models/consumeables_model.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
-import 'bloc/consumeable/get_consumeable_deyails/get_consumeable_details_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ConsumeableScreen extends StatefulWidget {
   const ConsumeableScreen({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
   late GetConsumableBloc getConsumeablesBloc;
 
   int? totalConsumeables;
+  String? branchid;
   List<ConsumeablesDetails>? allconsumable;
   List<ConsumeablesDetails>? _allconsumable;
   List<ConsumeablesDetails>? filteredconsumable;
@@ -66,8 +67,15 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
             ),
             tooltip: 'Add new consumable',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Add new Consumable')));
+              if (branchid!.length > 0) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCon(
+                              pagename: "Consumable",
+                              branchid: branchid,
+                            )));
+              }
             },
           ),
           IconButton(
@@ -93,6 +101,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
           if (state is GetConsumeableDetailsLoadingState) {
             return AppIndicator.circularProgressIndicator;
           } else if (state is GetConsumeablesDetailsLoadedState) {
+            branchid = state.ConsumeableDetailsList![0].branchID.toString();
             _allconsumable = state.ConsumeableDetailsList;
             allconsumable = _allconsumable;
             totalConsumeables = allconsumable?.length;
@@ -167,31 +176,74 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                                         icon: Icons.qr_code,
                                         backgroundColor: Color(0xFF8857c4),
                                         label: "Show QR",
-                                        onPressed: (context) {
-                                          showDialog<String>(
+                                        onPressed: (context) async {
+                                          showDialog<void>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title: Text(attd.name.toString()),
-                                              content: QrImage(
-                                                data: attd.cId.toString(),
-                                                size: 250,
-                                                embeddedImage: AssetImage(
-                                                  "assets/images/userlogo.png",
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
-                                                  child: const Text(
-                                                    'Done',
-                                                    textScaleFactor: 1,
+                                            barrierDismissible:
+                                                false, // user must tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text(
+                                                      'Hide',
+                                                      textScaleFactor: 1,
+                                                    ),
+                                                  ),
+                                                ],
+                                                insetPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                content: SingleChildScrollView(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        child: Text(
+                                                          attd.name.toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 15.0),
+                                                      Container(
+                                                        width: 200.0,
+                                                        height: 200.0,
+                                                        child: GestureDetector(
+                                                          onTap: () async {
+                                                            if (!await launch(
+                                                                "https://www.t1integrity.com/app/consumeable/search/" +
+                                                                    attd.cId
+                                                                        .toString())) {
+                                                              print(
+                                                                  "Could not launch");
+                                                            }
+                                                          },
+                                                          child: QrImage(
+                                                            errorStateBuilder:
+                                                                (context,
+                                                                        error) =>
+                                                                    Text(error
+                                                                        .toString()),
+                                                            data: "https://www.t1integrity.com/app/consumeable/search/" +
+                                                                attd.cId
+                                                                    .toString(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              );
+                                            },
                                           );
                                         })
                                   ],
@@ -218,7 +270,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Text(
-        "Cost Centre: " + Branch,
+        "Cost Center: " + Branch,
         style: TextStyle(
           color: Color(0xFF000000),
           fontWeight: FontWeight.bold,
@@ -262,7 +314,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                     Text(consumeable.name ?? "",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Colors.black,
                         )),
                     Padding(

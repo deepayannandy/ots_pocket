@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ots_pocket/add_equip.dart';
 import 'package:ots_pocket/bloc/consumeable/get_consumeable_deyails/get_consumeable_details_state.dart';
 import 'package:ots_pocket/bloc/equipment/equpments_event.dart';
 import 'package:ots_pocket/bloc/equipment/get_equipments_deyails/get_equipments_details_bloc.dart';
@@ -11,6 +11,7 @@ import 'package:ots_pocket/manage_equipment.dart';
 import 'package:ots_pocket/models/equipments_model.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EquimentScreen extends StatefulWidget {
   const EquimentScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class EquimentScreen extends StatefulWidget {
 class _EquimentScreenState extends State<EquimentScreen> {
   late GetEqupmentsBloc getEquipmentsBloc;
 
+  String? branchid;
   int? totalEquipments;
   List<equipmentsDetails>? allequipments;
   List<equipmentsDetails>? _allequipments;
@@ -64,8 +66,15 @@ class _EquimentScreenState extends State<EquimentScreen> {
             ),
             tooltip: 'Add new Equipments',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Add new Equipments')));
+              if (branchid!.length > 0) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddEquip(
+                              pagename: "Equipment",
+                              branchid: branchid,
+                            )));
+              }
             },
           ),
           IconButton(
@@ -91,6 +100,7 @@ class _EquimentScreenState extends State<EquimentScreen> {
           if (state is GetEquipmentsDetailsLoadingState) {
             return AppIndicator.circularProgressIndicator;
           } else if (state is GetEquipmentsDetailsLoadedState) {
+            branchid = state.EquipementDetailsList![0].branchID.toString();
             _allequipments = state.EquipementDetailsList;
             allequipments = _allequipments;
             totalEquipments = allequipments?.length;
@@ -164,30 +174,73 @@ class _EquimentScreenState extends State<EquimentScreen> {
                                         backgroundColor: Color(0xFF8857c4),
                                         label: "Show QR",
                                         onPressed: (context) {
-                                          showDialog<String>(
+                                          showDialog<void>(
                                             context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title: Text(attd.name.toString()),
-                                              content: QrImage(
-                                                data: attd.eId.toString(),
-                                                size: 250,
-                                                // embeddedImage: AssetImage(
-                                                //   "asset/images/app_launcher_icon.png",
-                                                // ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context, 'Cancel'),
-                                                  child: const Text(
-                                                    'Done',
-                                                    textScaleFactor: 1,
+                                            barrierDismissible:
+                                                false, // user must tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'Cancel'),
+                                                    child: const Text(
+                                                      'Hide',
+                                                      textScaleFactor: 1,
+                                                    ),
+                                                  ),
+                                                ],
+                                                insetPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                content: SingleChildScrollView(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        child: Text(
+                                                          attd.name.toString(),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 15.0),
+                                                      Container(
+                                                        width: 200.0,
+                                                        height: 200.0,
+                                                        child: GestureDetector(
+                                                          onTap: () async {
+                                                            if (!await launch(
+                                                                "https://www.t1integrity.com/app/equipment/search/" +
+                                                                    attd.eId
+                                                                        .toString())) {
+                                                              print(
+                                                                  "Could not launch");
+                                                            }
+                                                          },
+                                                          child: QrImage(
+                                                            errorStateBuilder:
+                                                                (context,
+                                                                        error) =>
+                                                                    Text(error
+                                                                        .toString()),
+                                                            data: "https://www.t1integrity.com/app/equipment/search/" +
+                                                                attd.eId
+                                                                    .toString(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              );
+                                            },
                                           );
                                         })
                                   ],
@@ -214,7 +267,7 @@ class _EquimentScreenState extends State<EquimentScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Text(
-        "Cost Centre: " + Branch,
+        "Cost Center: " + Branch,
         style: TextStyle(
           color: Color(0xFF000000),
           fontWeight: FontWeight.bold,
@@ -276,7 +329,7 @@ class _EquimentScreenState extends State<EquimentScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
-                                color: equipments.availableQnt! < 15
+                                color: equipments.availableQnt! < 1
                                     ? Colors.red
                                     : Colors.green,
                               )),

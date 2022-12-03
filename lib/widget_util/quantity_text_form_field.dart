@@ -34,10 +34,10 @@ class QuantityTextFormField extends StatelessWidget {
             fontSize: 16.0,
             color: Color(0xFF919191),
           ),
-          labelText: "Updated Quantity"),
+          labelText: "Available Quantity"),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Updated Quantity is required";
+          return "Available Quantity is required";
         }
         return null;
       },

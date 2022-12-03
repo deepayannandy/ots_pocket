@@ -41,7 +41,7 @@ class BranchBottomSheet {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Select Cost Centre",
+                          "Select Cost Center",
                           style: TextStyle(
                             fontSize: 18.0,
                             color: Color(0xFF000000),

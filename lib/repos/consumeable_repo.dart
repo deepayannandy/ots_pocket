@@ -20,7 +20,7 @@ class ConsumableRepository {
         await restClient?.post(endpoint: endpoint, body: ConDetails);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return "user registered successfully";
+      return "successfully Added";
     } else {
       log("User registration repo --> ${jsonDecode(response.body)['message']}");
       throw Exception(jsonDecode(response.body)['message']);

@@ -133,8 +133,11 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
                                     padding: const EdgeInsets.all(2.0),
                                     child: CircleAvatar(
                                       radius: 30,
-                                      child: Text(avatar),
-                                      backgroundColor: Colors.white,
+                                      child: Text(
+                                        avatar,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Color(0xFF157B4F),
                                       foregroundColor: Colors.black,
                                     ),
                                   ),

@@ -1,26 +1,33 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ots_pocket/bloc/equipment/patch_equipments_details/equipments_patch_bloc.dart';
-import 'package:ots_pocket/bloc/equipment/patch_equipments_details/equipments_patch_state.dart';
+import 'package:ots_pocket/bloc/consumeable/add_new_consumeable/add_new_consumeable_bloc.dart';
+import 'package:ots_pocket/bloc/consumeable/add_new_consumeable/add_new_consumeable_state.dart';
+import 'package:ots_pocket/bloc/consumeable/consumeables_event.dart';
+import 'package:ots_pocket/bloc/equipment/add_new_equipment/add_new_equipment_bloc.dart';
+import 'package:ots_pocket/bloc/equipment/add_new_equipment/add_new_equipment_state.dart';
+import 'package:ots_pocket/bloc/equipment/equpments_event.dart';
+import 'package:ots_pocket/models/consumeables_model.dart';
 import 'package:ots_pocket/models/equipments_model.dart';
+import 'package:ots_pocket/widget_util/add_name_text_form_field.dart';
 import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:ots_pocket/widget_util/quantity_text_form_field.dart';
 import 'package:ots_pocket/widget_util/show_toast.dart';
-import 'bloc/equipment/equpments_event.dart';
 
-class ManageEquipment extends StatefulWidget {
-  final equipmentsDetails? selectedEquipment;
-  const ManageEquipment({@required this.selectedEquipment, Key? key})
+class AddEquip extends StatefulWidget {
+  final String? pagename;
+  final String? branchid;
+  const AddEquip({@required this.pagename, @required this.branchid, Key? key})
       : super(key: key);
 
   @override
-  State<ManageEquipment> createState() => _ManageEquipmentState();
+  State<AddEquip> createState() => _AddEquipState();
 }
 
-class _ManageEquipmentState extends State<ManageEquipment> {
+class _AddEquipState extends State<AddEquip> {
   final TextEditingController quantityController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   GlobalKey<FormState> patchFormKey = GlobalKey<FormState>();
 
@@ -30,12 +37,18 @@ class _ManageEquipmentState extends State<ManageEquipment> {
 
   //for enable and disable the registration button based on contains in test from fields
   bool isQuantityTextFormFieldNotEmpty = false;
+  bool isnameControllerFormFieldNotEmpty = false;
 
   @override
   void initState() {
     quantityController.addListener(() {
       setState(() {
         isQuantityTextFormFieldNotEmpty = quantityController.text.isNotEmpty;
+      });
+    });
+    nameController.addListener(() {
+      setState(() {
+        isnameControllerFormFieldNotEmpty = nameController.text.isNotEmpty;
       });
     });
 
@@ -45,27 +58,23 @@ class _ManageEquipmentState extends State<ManageEquipment> {
   @override
   void dispose() {
     quantityController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String avatar = "";
-    List<String> namepart = widget.selectedEquipment!.name!.split(" ");
-    namepart.length < 2
-        ? avatar = namepart[0].substring(0, 1)
-        : avatar = namepart[0].substring(0, 1) + namepart[1].substring(0, 1);
-    return BlocListener<EquipmentPatchBloc, EquipmentsPatchState>(
+    return BlocListener<AddNewEquipmentBloc, AddNewEquipmentsState>(
       listener: (context, state) {
-        if (state is EquipmentsPatchLoadingState) {
+        if (state is AddNewEquipmentsLoadingState) {
           return AppIndicator.onLoading(context);
-        } else if (state is EquipmentsPatchSuccessState) {
+        } else if (state is AddNewEquipmentSuccessState) {
           log("Manage");
           AppIndicator.popDialogContext();
-          ShowToast.message(toastMsg: "Updated!");
+          ShowToast.message(toastMsg: "Added!");
           Navigator.pop(context);
-        } else if (state is EquipmentsPatchFailedState) {
-          log("EquipmentsChangesFailedState");
+        } else if (state is AddNewEquipmentsFailedState) {
+          log("ConsumableChangesFailedState");
           AppIndicator.popDialogContext();
           showAlertPopUpForErrorMsg(
             context: context,
@@ -84,7 +93,7 @@ class _ManageEquipmentState extends State<ManageEquipment> {
           backgroundColor: Color.fromRGBO(255, 255, 255, 1),
           centerTitle: true,
           title: Text(
-            "Update Form",
+            "Add New " + widget.pagename.toString(),
             style: TextStyle(fontSize: 25, color: Colors.black87),
           ),
           leading: IconButton(
@@ -114,68 +123,22 @@ class _ManageEquipmentState extends State<ManageEquipment> {
                   key: patchFormKey,
                   child: Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        height: 90,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: CircleAvatar(
-                                      radius: 30,
-                                      child: Text(
-                                        avatar,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: Color(0xFF157B4F),
-                                      foregroundColor: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 20,
-                                child: VerticalDivider(color: Colors.black),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Equipment Name:",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    widget.selectedEquipment!.name!,
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Instock: " +
-                                        widget.selectedEquipment!.availableQnt!
-                                            .toString(),
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          "Cost Center: " + widget.branchid.toString(),
+                          style: TextStyle(
+                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
                           ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      AddNameTextFormField(
+                        nameController: nameController,
                       ),
                       const SizedBox(
                         height: 16.0,
@@ -204,7 +167,7 @@ class _ManageEquipmentState extends State<ManageEquipment> {
                               }
                             : null,
                         child: const Text(
-                          "Update",
+                          "Add",
                         ),
                       ),
                       const SizedBox(
@@ -223,17 +186,19 @@ class _ManageEquipmentState extends State<ManageEquipment> {
 
   validate() {
     if (patchFormKey.currentState!.validate()) {
-      equipmentsDetails updatedEquipment = equipmentsDetails(
-          eId: widget.selectedEquipment!.eId,
+      equipmentsDetails newdata = equipmentsDetails(
+          name: nameController.text.trim(),
+          dispatchQnt: 0,
+          branchID: widget.branchid,
           availableQnt: int.parse(quantityController.text.trim()));
 
-      BlocProvider.of<EquipmentPatchBloc>(context)
-          .add(EquipmentPatchEvent(updateDetails: updatedEquipment));
+      BlocProvider.of<AddNewEquipmentBloc>(context)
+          .add(AddEquipmentEvent(equipdata: newdata));
     }
   }
 
   bool patchButtonActive() {
-    if (isQuantityTextFormFieldNotEmpty) {
+    if (isQuantityTextFormFieldNotEmpty && isnameControllerFormFieldNotEmpty) {
       return true;
     }
     return false;

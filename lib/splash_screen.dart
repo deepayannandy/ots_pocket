@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:ots_pocket/home_screen.dart';
 import 'package:ots_pocket/login_screen.dart';
 import 'package:ots_pocket/main.dart';
-import 'package:ots_pocket/on_boarding_screen.dart';
 import 'package:ots_pocket/widget_util/image_util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -39,41 +38,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    print("h" + height.toString() + "w" + width.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         alignment: Alignment.center,
         children: [
-          // Positioned(
-          //   top: 10,
-          //   child: Container(
-          //     constraints: BoxConstraints.expand(),
-          //     decoration: BoxDecoration(
-          //       image: DecorationImage(
-          //           colorFilter: ColorFilter.mode(
-          //               Colors.white.withOpacity(0), BlendMode.hardLight),
-          //           image: AssetImage("asset/images/bg_image.png"),
-          //           fit: BoxFit.fitWidth),
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //     bottom: 0,
-          //     child: Image.asset(
-          //       "asset/images/bottom.png",
-          //       fit: BoxFit.contain,
-          //       width: 360,
-          //     )),
           Positioned(
-              top: 60,
+              top: ((height / 2) - (height / 3)),
               child: Image.asset(
                 "asset/images/flag.png",
                 fit: BoxFit.contain,
                 width: 360,
               )),
           Positioned(
-            top: 290,
-            left: 0,
+            top: ((height / 2) - 100),
+            //left: width / 16,
             child: ImageUtil(
               width: 350.0,
               height: 250.0,

@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return BlocBuilder<GetLoggedinUserDetailsBloc,
                 GetLoggedinUserDetailsState>(builder: (context, state1) {
-              if (state1 is GetLoggedinUserDetailsLoadingState) {
+              if (false) {
                 return AppIndicator.circularProgressIndicator;
               } else if (state1 is GetLoggedinUserDetailsLoadedState) {
                 if (state1.userDetails!.desig == "Manager") {
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               } else {
                 return Container(
-                  child: Text("nothing"),
+                  child: Text(""),
                 );
               }
             });
@@ -359,14 +359,25 @@ class _HomeScreenState extends State<HomeScreen> {
         if (title == "User") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => UserManagementScreen()));
-        }
-        if (title == "Consumables") {
+        } else if (title == "Consumables") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => ConsumeableScreen()));
-        }
-        if (title == "Equipments") {
+        } else if (title == "Equipments") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EquimentScreen()));
+        } else {
+          final snackBar = SnackBar(
+            content: const Text(
+              'This feature is not yet enabled!',
+              style: TextStyle(color: Colors.black54),
+            ),
+            backgroundColor: (Colors.white),
+            action: SnackBarAction(
+              label: 'Dismiss',
+              onPressed: () {},
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       child: Card(

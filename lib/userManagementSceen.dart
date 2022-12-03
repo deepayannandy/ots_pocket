@@ -12,6 +12,8 @@ import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:ots_pocket/my_drawer.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserManagementScreen extends StatefulWidget {
   const UserManagementScreen({Key? key}) : super(key: key);
@@ -91,12 +93,85 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                   icon: Icons.edit_note_rounded,
                                   backgroundColor: Color(0xff13a693),
                                   label: "Manage",
-                                  onPressed: (context) {}),
+                                  onPressed: (context) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UserApproval(
+                                                  selectedUserData: attd,
+                                                  pagename: "Manage User",
+                                                )));
+                                  }),
                               SlidableAction(
                                   icon: Icons.qr_code,
                                   backgroundColor: Color(0xFF8857c4),
                                   label: "Show QR",
-                                  onPressed: (context) {})
+                                  onPressed: (context) {
+                                    showDialog<String>(
+                                      context: context,
+                                      barrierDismissible:
+                                          false, // user must tap button!
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                  context, 'Cancel'),
+                                              child: const Text(
+                                                'Hide',
+                                                textScaleFactor: 1,
+                                              ),
+                                            ),
+                                          ],
+                                          insetPadding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: Text(
+                                                    attd.fullname.toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 15.0),
+                                                Container(
+                                                  width: 200.0,
+                                                  height: 200.0,
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      if (!await launch(
+                                                          "https://www.t1integrity.com/app/user/search/" +
+                                                              attd.sId
+                                                                  .toString())) {
+                                                        print(
+                                                            "Could not launch");
+                                                      }
+                                                    },
+                                                    child: QrImage(
+                                                      errorStateBuilder:
+                                                          (context, error) =>
+                                                              Text(error
+                                                                  .toString()),
+                                                      data:
+                                                          "https://www.t1integrity.com/app/user/search/" +
+                                                              attd.sId
+                                                                  .toString(),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  })
                             ],
                           ),
                           child: attendence(attd, index));
@@ -118,7 +193,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Text(
-        "Cost Centre: " + Branch,
+        "Cost Center: " + Branch,
         style: TextStyle(
           color: Color(0xFF000000),
           fontWeight: FontWeight.bold,
@@ -188,6 +263,37 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Text(
+                        (user.projid?.length == 0
+                            ? ""
+                            : "Job: " + user.projid.toString()),
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          color: user.active == true
+                              ? Color(0xff13a693)
+                              : Colors.red,
+                        )),
+                    Spacer(),
+                    Text(user.projid?.length == 0 ? "NAP" : "Dispatched",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: user.projid?.length == 0
+                              ? Colors.green
+                              : Colors.orange,
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Text("Email: " + user.email!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -219,6 +325,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => UserApproval(
                                           selectedUserData: user,
+                                          pagename: "User Approval Form",
                                         )));
                           },
                           child: const Text('Approve',
