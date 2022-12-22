@@ -14,6 +14,8 @@ import 'package:ots_pocket/userManagementSceen.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 
 import 'bloc/user/get_loggedin_user_details/get_loggedin_user_details_bloc.dart';
+import 'login_screen.dart';
+import 'main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -336,6 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             });
           } else if (state is GetUserDetailsErrorState) {
+            logout(context);
             return Container(
               child: Text("User dose not exist!"),
             );
@@ -413,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 18.0,
+            fontSize: 15.0,
           ),
         ),
         Spacer(),
@@ -447,5 +450,27 @@ class _HomeScreenState extends State<HomeScreen> {
         Spacer(),
       ],
     );
+  }
+
+  logout(BuildContext context) {
+    Navigator.pop(context);
+    appStorage?.deleteEncryptedData('token');
+    Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(pageBuilder: (BuildContext context,
+            Animation animation, Animation secondaryAnimation) {
+          return LoginScreen();
+        }, transitionsBuilder: (BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child) {
+          return new SlideTransition(
+            position: new Tween<Offset>(
+                    begin: const Offset(1.0, 0.0), end: Offset.zero)
+                .animate(animation),
+            child: child,
+          );
+        }),
+        (route) => false);
   }
 }

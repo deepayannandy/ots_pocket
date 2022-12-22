@@ -297,14 +297,14 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                     Text("Email: " + user.email!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 10,
                           color: Colors.black54,
                         )),
                     Spacer(),
                     Text("Contact No." + user.mobile!,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 10,
                           color: Colors.black54,
                         )),
                   ],
