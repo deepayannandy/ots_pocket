@@ -81,4 +81,18 @@ class UserRepository {
       throw Exception(jsonDecode(response.body)['message']);
     }
   }
+
+  // patch user
+  Future<String> deleteUser({required String userid}) async {
+    String endpoint = APIEndpoint.ENDPOINT_PATCH_USER_DELETION + userid;
+
+    Response response = await restClient?.delete(endpoint: endpoint);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return "user deletion successfully";
+    } else {
+      log("User patch repo --> ${jsonDecode(response.body)['message']}");
+      throw Exception(jsonDecode(response.body)['message']);
+    }
+  }
 }

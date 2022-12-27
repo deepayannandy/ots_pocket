@@ -17,6 +17,8 @@ import 'package:ots_pocket/config/stroage.dart';
 import 'package:ots_pocket/config/repo_factory.dart';
 import 'package:ots_pocket/splash_screen.dart';
 
+import 'bloc/user/delete_User/user_delete_bloc.dart';
+
 final EncryptedSharedPrefManager? appStorage =
     EncryptedSharedPrefManager.getInstance();
 
@@ -81,6 +83,11 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => AddNewEquipmentBloc(
+            repoFactory: RepoFactory(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => UserDeleteBloc(
             repoFactory: RepoFactory(),
           ),
         ),

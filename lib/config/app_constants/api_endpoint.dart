@@ -8,6 +8,7 @@ class APIEndpoint {
   static final String ENDPOINT_GET_USER_DETAILS = "/api/user/";
   static final String ENDPOINT_GET_MY_DETAILS = "/api/user/mydata/me";
   static final String ENDPOINT_PATCH_USER_DETAILS = "/api/user/";
+  static final String ENDPOINT_PATCH_USER_DELETION = "/api/user/";
 
   //Consumeable urls
   static final String ENDPOINT_POST_NEW_CONSUMEABLES = "/api/consumeables/";

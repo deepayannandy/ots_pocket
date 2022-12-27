@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ots_pocket/bloc/user/delete_User/user_delete_bloc.dart';
+import 'package:ots_pocket/bloc/user/delete_User/user_delete_state.dart';
 import 'package:ots_pocket/bloc/user/get_loggedin_user_details/get_loggedin_user_details_bloc.dart';
 import 'package:ots_pocket/bloc/user/get_loggedin_user_details/get_loggedin_user_details_state.dart';
 import 'package:ots_pocket/bloc/user/user_event.dart';
@@ -103,21 +105,6 @@ class _MyDrower1 extends State<MyDrower1> {
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                     child: Column(
                       children: [
-                        // ListTile(
-                        //   leading: Icon(
-                        //     CupertinoIcons.moon,
-                        //     size: 20,
-                        //     color: Colors.black54,
-                        //   ),
-                        //   title: Text(
-                        //     "Change to Dark mode",
-                        //     textScaleFactor: 1,
-                        //     style: TextStyle(color: Colors.black54),
-                        //   ),
-                        //   onTap: () {
-                        //     Fluttertoast.showToast(msg: "Change to Dark Mode");
-                        //   },
-                        // ),
                         ListTile(
                           leading: Icon(
                             CupertinoIcons.profile_circled,
@@ -136,48 +123,8 @@ class _MyDrower1 extends State<MyDrower1> {
                                     builder: (context) => UserProfile(
                                           loggedinuser: state.userDetails,
                                         )));
-                            // showDialog<String>(
-                            //     context: context,
-                            //     builder: (BuildContext context) => AlertDialog(
-                            //           title: Text(state.userDetails!.fullname! +
-                            //               " (" +
-                            //               state.userDetails!.desig! +
-                            //               ")" +
-                            //               "\n" +
-                            //               state.userDetails!.empBranch!),
-                            //           content: QrImage(
-                            //             data: state.userDetails?.sId ?? "",
-                            //             size: 250,
-                            //             embeddedImage: AssetImage(
-                            //               "assets/images/userlogo.png",
-                            //             ),
-                            //           ),
-                            //           actions: <Widget>[
-                            //             TextButton(
-                            //               onPressed: () =>
-                            //                   Navigator.pop(context, 'Cancel'),
-                            //               child: const Text(
-                            //                 'Done',
-                            //                 textScaleFactor: 1,
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ));
                           },
                         ),
-                        // ListTile(
-                        //   leading: Icon(
-                        //     CupertinoIcons.hand_draw,
-                        //     color: Colors.black54,
-                        //     size: 20,
-                        //   ),
-                        //   title: Text(
-                        //     "About Us",
-                        //     textScaleFactor: 1,
-                        //     style: TextStyle(color: Colors.black54),
-                        //   ),
-                        //   onTap: () async {},
-                        // ),
                         ListTile(
                           leading: Icon(
                             CupertinoIcons.phone_circle,
@@ -231,19 +178,48 @@ class _MyDrower1 extends State<MyDrower1> {
                                 ],
                               ),
                             );
-
-                            // title:Text("Logout") ,
-                            // content:Text("Are you sure you want to logout?"),
-                            // actions: [
-                            //   ElevatedButton(onPressed: (){
-                            //   Navigator.pop(context);
-                            //   },child: Text("No")),
-                            //   ElevatedButton(onPressed: (){
-                            //
-                            //   }, child: Text("Yes"))
-                            // ],
                           },
                         ),
+                        ListTile(
+                            leading: Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                              size: 20,
+                            ),
+                            title: Text(
+                              "Delete My User",
+                              textScaleFactor: 1,
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                            onTap: () {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  title: const Text('Account Deletion'),
+                                  content: const Text(
+                                      'Are you sure you want to delete your user account permanently!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        BlocProvider.of<UserDeleteBloc>(context)
+                                            .add(UserDeleteEvent(
+                                                userid: state.userDetails!.sId
+                                                    .toString()));
+                                        logout(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                       ],
                     ),
                   ),
