@@ -8,10 +8,9 @@ import 'package:ots_pocket/models/user_approval_details_model.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
+import 'package:ots_pocket/widget_util/designation_text_form_field.dart';
 import 'package:ots_pocket/widget_util/payrateST_text_form_field.dart';
 import 'package:ots_pocket/widget_util/salary_text_form_field.dart';
-
-import 'package:ots_pocket/widget_util/select_designation_text_form_field.dart';
 import 'package:ots_pocket/widget_util/show_toast.dart';
 
 class UserApproval extends StatefulWidget {
@@ -44,6 +43,10 @@ class _UserApprovalState extends State<UserApproval> {
 
   @override
   void initState() {
+    setState(() {
+      selectDesignationController.text =
+          widget.selectedUserData!.desig.toString();
+    });
     selectDesignationController.addListener(() {
       setState(() {
         isSelectDesignationTextFormFieldNotEmpty =
@@ -140,7 +143,7 @@ class _UserApprovalState extends State<UserApproval> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 30.0, bottom: 32.0, left: 32.0, right: 32.0),
+                    top: 32.0, bottom: 32.0, left: 32.0, right: 32.0),
                 child: Form(
                   key: patchFormKey,
                   child: Column(
@@ -150,9 +153,9 @@ class _UserApprovalState extends State<UserApproval> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        height: widget.pagename == "Manage User" ? 130 : 100,
+                        height: widget.pagename == "Manage User" ? 140 : 120,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Row(
                             children: [
                               Column(
@@ -235,9 +238,8 @@ class _UserApprovalState extends State<UserApproval> {
                       const SizedBox(
                         height: 16.0,
                       ),
-                      SelectDesignationTextFormField(
-                        selectDesignationController:
-                            selectDesignationController,
+                      DesignationTextFormField(
+                        designationController: selectDesignationController,
                       ),
                       const SizedBox(
                         height: 16.0,

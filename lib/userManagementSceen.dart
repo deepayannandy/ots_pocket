@@ -15,6 +15,8 @@ import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'bloc/user/delete_User/user_delete_bloc.dart';
+
 class UserManagementScreen extends StatefulWidget {
   const UserManagementScreen({Key? key}) : super(key: key);
 
@@ -146,7 +148,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                                   child: GestureDetector(
                                                     onTap: () async {
                                                       if (!await launch(
-                                                          "https://www.t1integrity.com/app/user/search/" +
+                                                          "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
                                                               attd.sId
                                                                   .toString())) {
                                                         print(
@@ -159,7 +161,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                                               Text(error
                                                                   .toString()),
                                                       data:
-                                                          "https://www.t1integrity.com/app/user/search/" +
+                                                          "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
                                                               attd.sId
                                                                   .toString(),
                                                     ),
@@ -244,7 +246,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           color: Color(0xff13a693),
                         )),
                     Spacer(),
-                    Text(user.active == true ? "Active" : "Pending",
+                    Text(
+                        user.Status == "Requested for Deletion"
+                            ? "Requested for Deletion"
+                            : user.active == true
+                                ? "Active"
+                                : "Pending",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 14,
@@ -314,40 +321,69 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 height: 5,
               ),
               user.active! == false
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => UserApproval(
-                                          selectedUserData: user,
-                                          pagename: "User Approval Form",
-                                        )));
-                          },
-                          child: const Text('Approve',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.green,
-                              )),
-                        ),
-                        Spacer(),
-                        TextButton(
-                          onPressed: null,
-                          child: const Text('Reject',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.red,
-                              )),
-                        ),
-                        Spacer(),
-                      ],
-                    )
+                  ? user.Status == "Requested for Deletion"
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                BlocProvider.of<UserDeleteBloc>(context).add(
+                                    UserDeleteEvent(
+                                        userid: user.sId.toString()));
+                                BlocProvider.of<GetUserDetailsUserBloc>(context)
+                                    .add(GetUserDetailsEvent());
+                              },
+                              child: const Text('Delete',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                  )),
+                            ),
+                            Spacer(),
+                          ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserApproval(
+                                              selectedUserData: user,
+                                              pagename: "User Approval Form",
+                                            )));
+                              },
+                              child: const Text('Approve',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.green,
+                                  )),
+                            ),
+                            Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                BlocProvider.of<UserDeleteBloc>(context).add(
+                                    UserDeleteEvent(
+                                        userid: user.sId.toString()));
+                                BlocProvider.of<GetUserDetailsUserBloc>(context)
+                                    .add(GetUserDetailsEvent());
+                              },
+                              child: const Text('Reject',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                  )),
+                            ),
+                            Spacer(),
+                          ],
+                        )
                   : Container(
                       child: SizedBox(),
                     )

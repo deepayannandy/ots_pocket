@@ -1,7 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ots_pocket/bloc/user/user_event.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'bloc/user/patch_User_details/user_patch_bloc.dart';
+import 'login_screen.dart';
+import 'models/user_approval_details_model.dart';
 
 class UserProfile extends StatefulWidget {
   final UserDetails? loggedinuser;
@@ -64,14 +71,15 @@ class _UserProfileState extends State<UserProfile> {
                     child: GestureDetector(
                       onTap: () async {
                         if (!await launch(
-                            "https://www.t1integrity.com/app/user/search/" +
+                            "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
                                 widget.loggedinuser!.sId!.toString())) {
                           print("Could not launch");
                         }
                       },
                       child: QrImage(
-                        data: "https://www.t1integrity.com/app/user/search/" +
-                            widget.loggedinuser!.sId!,
+                        data:
+                            "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
+                                widget.loggedinuser!.sId!,
                         size: 180,
                         embeddedImage: AssetImage(
                           "assets/images/userlogo.png",
@@ -86,8 +94,8 @@ class _UserProfileState extends State<UserProfile> {
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        width: 250,
-                        height: 100,
+                        width: 280,
+                        height: 120,
                         child: Column(
                           children: [
                             SizedBox(
@@ -171,6 +179,51 @@ class _UserProfileState extends State<UserProfile> {
                   "Back",
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              child: const Text(
+                "Request for profile removal",
+                style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.none),
+              ),
+              onTap: () {
+                showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          title: Text('Request for profile removal'),
+                          content:
+                              const Text('Are you sure you want to remove!'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                UserApprovalDetails userdetails =
+                                    UserApprovalDetails(
+                                        sId: widget.loggedinuser!.sId,
+                                        Status: "Requested for Deletion",
+                                        StatusBg: "#FF0000",
+                                        active: false);
+                                BlocProvider.of<UserPatchBloc>(context).add(
+                                    UserPatchEvent(
+                                        approvalDetails: userdetails));
+                                Navigator.pop(context);
+                              },
+                              child: const Text('No-longer employed'),
+                            ),
+                          ],
+                        ));
+              },
             ),
           ],
         ),

@@ -217,7 +217,7 @@ class _EquimentScreenState extends State<EquimentScreen> {
                                                         child: GestureDetector(
                                                           onTap: () async {
                                                             if (!await launch(
-                                                                "https://www.t1integrity.com/app/equipment/search/" +
+                                                                "https://tier1integrity.pocsofclients.com/EquipProfile?id=" +
                                                                     attd.eId
                                                                         .toString())) {
                                                               print(
@@ -230,7 +230,7 @@ class _EquimentScreenState extends State<EquimentScreen> {
                                                                         error) =>
                                                                     Text(error
                                                                         .toString()),
-                                                            data: "https://www.t1integrity.com/app/equipment/search/" +
+                                                            data: "https://tier1integrity.pocsofclients.com/EquipProfile?id=" +
                                                                 attd.eId
                                                                     .toString(),
                                                           ),

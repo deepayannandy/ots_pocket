@@ -5,6 +5,8 @@ class UserApprovalDetails {
   String? desig;
   bool? active;
   String? projid;
+  String? Status;
+  String? StatusBg;
 
   UserApprovalDetails({
     this.sId,
@@ -13,6 +15,8 @@ class UserApprovalDetails {
     this.desig,
     this.projid,
     this.active,
+    this.Status,
+    this.StatusBg,
   });
 
   UserApprovalDetails.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,8 @@ class UserApprovalDetails {
     active = json['active'];
     projid = json['projid'];
     desig = json['desig'];
+    Status = json["Status"];
+    StatusBg = json["StatusBg"];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +38,8 @@ class UserApprovalDetails {
     data['projid'] = this.projid;
     data['active'] = this.active;
     data['desig'] = this.desig;
+    data['Status'] = this.Status;
+    data['StatusBg'] = this.StatusBg;
     return data;
   }
 }

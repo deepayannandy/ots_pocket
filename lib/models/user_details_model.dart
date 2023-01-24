@@ -12,6 +12,7 @@ class UserDetails {
   bool? active;
   String? password;
   int? iV;
+  String? Status;
 
   UserDetails(
       {this.sId,
@@ -27,6 +28,7 @@ class UserDetails {
       this.active,
       this.password,
       this.iV,
+      this.Status,
       required UserDetails userDetails});
 
   UserDetails.fromJson(Map<String, dynamic> json) {
@@ -43,6 +45,7 @@ class UserDetails {
     active = json['active'];
     password = json['password'];
     iV = json['__v'];
+    Status = json['Status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +63,7 @@ class UserDetails {
     data['active'] = this.active;
     data['password'] = this.password;
     data['__v'] = this.iV;
+    data['Status'] = this.Status;
     return data;
   }
 }

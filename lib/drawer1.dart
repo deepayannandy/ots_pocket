@@ -180,46 +180,6 @@ class _MyDrower1 extends State<MyDrower1> {
                             );
                           },
                         ),
-                        ListTile(
-                            leading: Icon(
-                              Icons.delete_outline,
-                              color: Colors.red,
-                              size: 20,
-                            ),
-                            title: Text(
-                              "Delete My User",
-                              textScaleFactor: 1,
-                              style: TextStyle(color: Colors.black54),
-                            ),
-                            onTap: () {
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  backgroundColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  title: const Text('Account Deletion'),
-                                  content: const Text(
-                                      'Are you sure you want to delete your user account permanently!'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'Cancel'),
-                                      child: const Text('No'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        BlocProvider.of<UserDeleteBloc>(context)
-                                            .add(UserDeleteEvent(
-                                                userid: state.userDetails!.sId
-                                                    .toString()));
-                                        logout(context);
-                                      },
-                                      child: const Text('Yes'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
                       ],
                     ),
                   ),
@@ -228,12 +188,7 @@ class _MyDrower1 extends State<MyDrower1> {
                           alignment: FractionalOffset.bottomCenter,
                           child: Column(
                             children: <Widget>[
-                              // Divider(),
                               ListTile(
-                                  // leading: Icon(
-                                  //   CupertinoIcons.heart,
-                                  //   color: Colors.white,
-                                  // ),
                                   title: Text(
                                 "",
                                 textScaleFactor: 1,

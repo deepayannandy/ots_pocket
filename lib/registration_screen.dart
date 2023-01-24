@@ -11,6 +11,7 @@ import 'package:ots_pocket/models/user_registration_model.dart';
 import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:ots_pocket/widget_util/confirm_password_text_form_field.dart';
+import 'package:ots_pocket/widget_util/designation_text_form_field.dart';
 import 'package:ots_pocket/widget_util/email_text_from_field.dart';
 import 'package:ots_pocket/widget_util/image_util.dart';
 import 'package:ots_pocket/widget_util/name_text_form_field.dart';
@@ -35,11 +36,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController ssnController1 = TextEditingController();
-  final TextEditingController ssnController2 = TextEditingController();
-  final TextEditingController ssnController3 = TextEditingController();
   final TextEditingController ssnController_1 = TextEditingController();
-  final TextEditingController ssnController_2 = TextEditingController();
-  final TextEditingController ssnController_3 = TextEditingController();
+  final TextEditingController designation = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -56,13 +54,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isPhoneNumberTextFormFieldNotEmpty = false;
   bool isEmailTextFormFieldNotEmpty = false;
   bool isSSNTextFormFieldNotEmpty1 = false;
-  bool isSSNTextFormFieldNotEmpty2 = false;
-  bool isSSNTextFormFieldNotEmpty3 = false;
   bool isSSNTextFormFieldNotEmpty_1 = false;
-  bool isSSNTextFormFieldNotEmpty_2 = false;
-  bool isSSNTextFormFieldNotEmpty_3 = false;
   bool isPasswordTextFormFieldNotEmpty = false;
   bool isConfirmPasswordTextFormFieldNotEmpty = false;
+  bool isDesignation = false;
 
   @override
   void initState() {
@@ -83,34 +78,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             phoneNumberController.text.isNotEmpty;
       });
     });
+    designation.addListener(() {
+      setState(() {
+        isDesignation = designation.text.isNotEmpty;
+      });
+    });
     ssnController1.addListener(() {
       setState(() {
         isSSNTextFormFieldNotEmpty1 = ssnController1.text.isNotEmpty;
       });
     });
-    ssnController2.addListener(() {
-      setState(() {
-        isSSNTextFormFieldNotEmpty2 = ssnController2.text.isNotEmpty;
-      });
-    });
-    ssnController3.addListener(() {
-      setState(() {
-        isSSNTextFormFieldNotEmpty3 = ssnController3.text.isNotEmpty;
-      });
-    });
     ssnController_1.addListener(() {
       setState(() {
         isSSNTextFormFieldNotEmpty_1 = ssnController_1.text.isNotEmpty;
-      });
-    });
-    ssnController_2.addListener(() {
-      setState(() {
-        isSSNTextFormFieldNotEmpty_2 = ssnController_2.text.isNotEmpty;
-      });
-    });
-    ssnController_3.addListener(() {
-      setState(() {
-        isSSNTextFormFieldNotEmpty_3 = ssnController_3.text.isNotEmpty;
       });
     });
     emailController.addListener(() {
@@ -139,10 +119,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     emailController.dispose();
     phoneNumberController.dispose();
     ssnController1.dispose();
-    ssnController2.dispose();
-    ssnController3.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    designation.dispose();
     super.dispose();
   }
 
@@ -263,23 +242,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       const SizedBox(
                         height: 16.0,
                       ),
-                      SsnNewTextFormField(
-                        ssnController1: ssnController1,
-                        ssnController2: ssnController2,
-                        ssnController3: ssnController3,
+                      DesignationTextFormField(
+                        designationController: designation,
                       ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      SsnTextFormField(ssnController: ssnController1),
                       const SizedBox(
                         height: 16.0,
                       ),
                       SsnNewConfirmTextFormField(
                         ssnController1: ssnController_1,
-                        ssnController2: ssnController_2,
-                        ssnController3: ssnController_3,
                         ssnController_1: ssnController1,
-                        ssnController_2: ssnController2,
-                        ssnController_3: ssnController3,
                       ),
-
                       const SizedBox(
                         height: 16.0,
                       ),
@@ -376,11 +352,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         fullname: nameController.text.trim(),
         mobile: phoneNumberController.text.trim(),
         email: emailController.text.trim(),
-        ssn: ssnController_1.text.trim() +
-            ssnController_2.text.trim() +
-            ssnController_3.text.trim(),
+        ssn: ssnController_1.text.trim(),
         password: passwordController.text.trim(),
-        desig: "Employee",
+        desig: designation.text.trim(),
         projid: "",
       );
 
@@ -395,11 +369,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         isPhoneNumberTextFormFieldNotEmpty &&
         isEmailTextFormFieldNotEmpty &&
         isSSNTextFormFieldNotEmpty_1 &&
-        isSSNTextFormFieldNotEmpty_2 &&
-        isSSNTextFormFieldNotEmpty_3 &&
+        isDesignation &&
         isSSNTextFormFieldNotEmpty1 &&
-        isSSNTextFormFieldNotEmpty2 &&
-        isSSNTextFormFieldNotEmpty3 &&
         isPasswordTextFormFieldNotEmpty &&
         isConfirmPasswordTextFormFieldNotEmpty) {
       return true;

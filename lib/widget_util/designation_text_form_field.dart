@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SsnTextFormField extends StatelessWidget {
-  final TextEditingController? ssnController;
-
-  const SsnTextFormField({@required this.ssnController, Key? key})
+class DesignationTextFormField extends StatelessWidget {
+  final TextEditingController? designationController;
+  const DesignationTextFormField(
+      {@required this.designationController, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: ssnController,
-      keyboardType: TextInputType.number,
-      maxLength: 4,
+      controller: designationController,
+      keyboardType: TextInputType.name,
+      textCapitalization: TextCapitalization.none,
+      maxLength: 50,
       maxLines: null,
       style: TextStyle(
         fontSize: 16.0,
@@ -20,7 +21,7 @@ class SsnTextFormField extends StatelessWidget {
       ),
       inputFormatters: [
         FilteringTextInputFormatter.allow(
-          RegExp('[0-9]'),
+          RegExp('[A-Za-z ]'),
         ),
       ],
       decoration: InputDecoration(
@@ -28,17 +29,17 @@ class SsnTextFormField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
-          hintText: "XXXX",
+          hintText: "Designation",
           hintStyle: TextStyle(
             fontSize: 16.0,
             color: Color(0xFF919191),
           ),
-          labelText: "Last 4 digit of SSN#"),
+          labelText: "Designation"),
       validator: (value) {
-        if (value!.isEmpty) {
-          return "SSN is required";
-        } else if (value.length < 4) {
-          return "SSN length should be at list 4";
+        if (value!.trim().isEmpty) {
+          return "Designation is required";
+        } else if (value.length < 2) {
+          return "Designation length should be at list 2";
         }
         return null;
       },

@@ -220,7 +220,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                                                         child: GestureDetector(
                                                           onTap: () async {
                                                             if (!await launch(
-                                                                "https://www.t1integrity.com/app/consumeable/search/" +
+                                                                "https://tier1integrity.pocsofclients.com/ConsProfile?id=" +
                                                                     attd.cId
                                                                         .toString())) {
                                                               print(
@@ -233,7 +233,7 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                                                                         error) =>
                                                                     Text(error
                                                                         .toString()),
-                                                            data: "https://www.t1integrity.com/app/consumeable/search/" +
+                                                            data: "https://tier1integrity.pocsofclients.com/ConsProfile?id=" +
                                                                 attd.cId
                                                                     .toString(),
                                                           ),
