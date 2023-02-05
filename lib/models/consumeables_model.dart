@@ -6,6 +6,7 @@ class ConsumeablesDetails {
   int? stockQnt;
   int? dispatchQnt;
   String? branchID;
+  dynamic? UR;
 
   ConsumeablesDetails({
     this.cId,
@@ -13,6 +14,7 @@ class ConsumeablesDetails {
     this.stockQnt,
     this.dispatchQnt,
     this.branchID,
+    this.UR,
   });
 
   ConsumeablesDetails.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class ConsumeablesDetails {
     stockQnt = json['stockQnt'];
     dispatchQnt = json['dispatchQnt'];
     branchID = json['branchID'];
+    UR = json['UR'];
   }
 
   Map<String, dynamic> toJson() {
@@ -30,6 +33,7 @@ class ConsumeablesDetails {
     data['stockQnt'] = this.stockQnt;
     data['dispatchQnt'] = this.dispatchQnt;
     data['branchID'] = this.branchID;
+    data['UR'] = this.UR;
     return data;
   }
 }

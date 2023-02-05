@@ -19,7 +19,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       obscureText: isPasswordEncryptedState,
       controller: widget.passwordController,
       keyboardType: TextInputType.visiblePassword,
-      maxLength: 12,
+      maxLength: 16,
       style: TextStyle(
         fontSize: 16.0,
         color: Color(0xFF000000),

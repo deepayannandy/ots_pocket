@@ -16,9 +16,12 @@ class APIEndpoint {
   static final String ENDPOINT_GET_ALL_CONSUMEABLES = "/api/consumeables/";
   static final String ENDPOINT_GET_SPECIFIC_CONSUMEABLES = "/api/consumeables/";
 
-    //Consumeable urls
+  //Consumeable urls
   static final String ENDPOINT_POST_NEW_EQUIPMENTS = "/api/equipements/";
   static final String ENDPOINT_PATCH_UPDATE_EQUIPMENTS = "/api/equipements/";
   static final String ENDPOINT_GET_ALL_EQUIPMENTS = "/api/equipements/";
   static final String ENDPOINT_GET_SPECIFIC_EQUIPMENTS = "/api/equipements/";
+
+  //LaborRates
+  static final String ENDPOINT_GET_ALL_LaborRate = "/api/lr/catagory/";
 }

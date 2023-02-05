@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:ots_pocket/widget_util/designation_bootom_sheet.dart';
+import 'package:ots_pocket/widget_util/branch_bootom_sheet.dart';
+
+import 'designation_bootom_sheet.dart';
 
 class SelectDesignationTextFormField extends StatelessWidget {
-  final TextEditingController? selectDesignationController;
+  final TextEditingController? selectBranchController;
+  final String catagory;
 
   const SelectDesignationTextFormField(
-      {@required this.selectDesignationController, Key? key})
+      {@required this.selectBranchController, Key? key, required this.catagory})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: () {
-        DesignationBottomSheet().branchBottomSheetDialog(
+        designationBottomSheet().branchBottomSheetDialog(
           context: context,
+          catagory: catagory,
           onSelectBranchValue: (value) {
-            selectDesignationController?.text = value;
+            selectBranchController?.text = value;
           },
         );
       },
-      controller: selectDesignationController,
+      controller: selectBranchController,
       readOnly: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
-        hintText: "Employee",
-        labelText: "Select employee designation",
+        hintText: "Manager",
+        labelText: "Select Designation",
         suffixIcon: Icon(
           Icons.arrow_drop_down,
           color: Color(0xFF000000),
@@ -32,7 +36,7 @@ class SelectDesignationTextFormField extends StatelessWidget {
       ),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Employee designation is required";
+          return "Designation is required";
         }
         return null;
       },

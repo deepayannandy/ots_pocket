@@ -18,6 +18,8 @@ import 'package:ots_pocket/widget_util/name_text_form_field.dart';
 import 'package:ots_pocket/widget_util/password_text_form_field.dart';
 import 'package:ots_pocket/widget_util/phone_text_form_field.dart';
 import 'package:ots_pocket/widget_util/select_branch_text_form_field.dart';
+import 'package:ots_pocket/widget_util/select_designation_text_form_field.dart';
+import 'package:ots_pocket/widget_util/select_designationc_cat_text_form_field.dart';
 import 'package:ots_pocket/widget_util/show_toast.dart';
 import 'package:ots_pocket/widget_util/ssnNew_text_form_firld.dart';
 import 'package:ots_pocket/widget_util/ssnNew_text_form_firld_confirm.dart';
@@ -39,6 +41,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController ssnController_1 = TextEditingController();
   final TextEditingController designation = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController dCatagoryController =
+      TextEditingController(text: "Others");
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -58,6 +62,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isPasswordTextFormFieldNotEmpty = false;
   bool isConfirmPasswordTextFormFieldNotEmpty = false;
   bool isDesignation = false;
+  bool isdCatagoryController = false;
 
   @override
   void initState() {
@@ -70,6 +75,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     nameController.addListener(() {
       setState(() {
         isNameTextFormFieldNotEmpty = nameController.text.isNotEmpty;
+      });
+    });
+    dCatagoryController.addListener(() {
+      setState(() {
+        isdCatagoryController = dCatagoryController.text.isNotEmpty;
       });
     });
     phoneNumberController.addListener(() {
@@ -122,6 +132,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     designation.dispose();
+    dCatagoryController.dispose();
     super.dispose();
   }
 
@@ -224,6 +235,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       const SizedBox(
                         height: 16.0,
                       ),
+                      SelectDesignationCatTextFormField(
+                        selectDesignationController: dCatagoryController,
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      dCatagoryController.text == "Others"
+                          ? DesignationTextFormField(
+                              designationController: designation,
+                            )
+                          : SelectDesignationTextFormField(
+                              catagory: dCatagoryController.text,
+                              selectBranchController: designation),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+
                       NameTextFormField(
                         nameController: nameController,
                       ),
@@ -239,12 +267,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       PhoneTextFormField(
                         phoneNumberController: phoneNumberController,
                       ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
-                      DesignationTextFormField(
-                        designationController: designation,
-                      ),
+
                       const SizedBox(
                         height: 16.0,
                       ),
@@ -356,6 +379,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         password: passwordController.text.trim(),
         desig: designation.text.trim(),
         projid: "",
+        desigcatagory: dCatagoryController.text.trim(),
       );
 
       BlocProvider.of<UserRegistrationBloc>(context)

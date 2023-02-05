@@ -292,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Expanded(
                                   child: getCard(
                                       cardBgColor: Color(0xFFf26a6e),
-                                      title: "Daily expences",
+                                      title: "Daily expenses",
                                       iconName:
                                           CupertinoIcons.money_dollar_circle),
                                 ),

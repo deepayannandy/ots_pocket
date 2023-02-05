@@ -10,6 +10,7 @@ import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:ots_pocket/widget_util/quantity_text_form_field.dart';
 import 'package:ots_pocket/widget_util/show_toast.dart';
+import 'package:ots_pocket/widget_util/unitRate_text_form_field.dart';
 
 import 'bloc/consumeable/patch_consumable_details/consumable_patch_bloc.dart';
 
@@ -24,6 +25,7 @@ class ManageConsumeable extends StatefulWidget {
 
 class _ManageConsumeableState extends State<ManageConsumeable> {
   final TextEditingController quantityController = TextEditingController();
+  final TextEditingController URController = TextEditingController();
 
   GlobalKey<FormState> patchFormKey = GlobalKey<FormState>();
 
@@ -36,6 +38,8 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
 
   @override
   void initState() {
+    quantityController.text = widget.selectedConsumeables!.stockQnt.toString();
+    URController.text = widget.selectedConsumeables!.UR.toString();
     quantityController.addListener(() {
       setState(() {
         isQuantityTextFormFieldNotEmpty = quantityController.text.isNotEmpty;
@@ -187,6 +191,11 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
                         quantityNumberController: quantityController,
                       ),
                       const SizedBox(
+                        height: 16.0,
+                      ),
+                      UnitRateTextFormField(
+                          UnitRateNumberController: URController),
+                      const SizedBox(
                         height: 48.0,
                       ),
                       ElevatedButton(
@@ -228,6 +237,7 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
     if (patchFormKey.currentState!.validate()) {
       ConsumeablesDetails updatedConsumable = ConsumeablesDetails(
           cId: widget.selectedConsumeables!.cId,
+          UR: double.parse(URController.text.toString()),
           stockQnt: int.parse(quantityController.text.trim()));
 
       BlocProvider.of<ConsumablePatchBloc>(context)

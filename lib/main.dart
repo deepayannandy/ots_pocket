@@ -17,6 +17,7 @@ import 'package:ots_pocket/config/stroage.dart';
 import 'package:ots_pocket/config/repo_factory.dart';
 import 'package:ots_pocket/splash_screen.dart';
 
+import 'bloc/laborRate/getLaborRate/get_labor_rate_bloc.dart';
 import 'bloc/user/delete_User/user_delete_bloc.dart';
 
 final EncryptedSharedPrefManager? appStorage =
@@ -88,6 +89,11 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => UserDeleteBloc(
+            repoFactory: RepoFactory(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => GetLaborRateBloc(
             repoFactory: RepoFactory(),
           ),
         ),

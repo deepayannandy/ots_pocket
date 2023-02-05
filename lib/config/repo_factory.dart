@@ -7,6 +7,8 @@ import 'package:ots_pocket/repos/login_repository.dart';
 import 'package:ots_pocket/repos/user_repository.dart';
 import 'package:retry/retry.dart';
 
+import '../repos/laborrate_repo.dart';
+
 class RepoFactory {
   RestClient? _restClient;
   static final RepoFactory _instance = RepoFactory._internal();
@@ -31,13 +33,14 @@ class RepoFactory {
   UserRepository get getUserRepository =>
       UserRepository(restClient: _restClient);
 
-
   LoginRepository get getLoginRepository =>
       LoginRepository(restClient: _restClient);
 
   ConsumableRepository get getConsumeableRepository =>
       ConsumableRepository(restClient: _restClient);
-      
+
   EquipmentRepository get getEquipmentRepository =>
       EquipmentRepository(restClient: _restClient);
+  LaborRateRepository get getLaborRateRepository =>
+      LaborRateRepository(restClient: _restClient);
 }

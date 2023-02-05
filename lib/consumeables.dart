@@ -317,27 +317,43 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                           fontSize: 16,
                           color: Colors.black,
                         )),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("In Stock ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black54,
-                              )),
-                          Text(consumeable.stockQnt.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: consumeable.stockQnt! < 15
-                                    ? Colors.red
-                                    : Colors.green,
-                              )),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("In Stock ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black54,
+                            )),
+                        Text(consumeable.stockQnt.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: consumeable.stockQnt! < 15
+                                  ? Colors.red
+                                  : Colors.green,
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("Unit Rate ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black54,
+                            )),
+                        Text(
+                            "\$" +
+                                (consumeable.UR == null
+                                    ? "0"
+                                    : consumeable.UR.toString()),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.green,
+                            )),
+                      ],
                     ),
                     SizedBox(
                       height: 5,

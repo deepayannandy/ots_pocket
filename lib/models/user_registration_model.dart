@@ -7,16 +7,18 @@ class UserRegistration {
   String? password;
   String? desig;
   String? projid;
+  String? desigcatagory;
 
   UserRegistration(
       {this.fullname,
-        this.mobile,
-        this.email,
-        this.ssn,
-        this.empBranch,
-        this.password,
-        this.desig,
-        this.projid});
+      this.mobile,
+      this.email,
+      this.ssn,
+      this.empBranch,
+      this.password,
+      this.desig,
+      this.desigcatagory,
+      this.projid});
 
   UserRegistration.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
@@ -27,6 +29,7 @@ class UserRegistration {
     password = json['password'];
     desig = json['desig'];
     projid = json['projid'];
+    desigcatagory = json['desigcatagory'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class UserRegistration {
     data['password'] = this.password;
     data['desig'] = this.desig;
     data['projid'] = this.projid;
+    data['desigcatagory'] = this.desigcatagory;
     return data;
   }
 }

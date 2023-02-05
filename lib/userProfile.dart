@@ -112,10 +112,9 @@ class _UserProfileState extends State<UserProfile> {
                               height: 6,
                             ),
                             DefaultTextStyle(
-                                child: Text("Designation : " +
-                                    widget.loggedinuser!.desig!),
+                                child: Text("" + widget.loggedinuser!.desig!),
                                 style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     color: Color(0xFF000000),
                                     fontWeight: FontWeight.w700)),
                             SizedBox(
