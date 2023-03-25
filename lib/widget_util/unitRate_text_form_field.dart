@@ -34,7 +34,7 @@ class UnitRateTextFormField extends StatelessWidget {
             fontSize: 16.0,
             color: Color(0xFF919191),
           ),
-          labelText: "Unit Rate"),
+          labelText: "MSR"),
       validator: (value) {
         if (value!.isEmpty) {
           return "Unit Rate is required";

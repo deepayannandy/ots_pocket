@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ots_pocket/PO.dart';
 import 'package:ots_pocket/bloc/user/get_loggedin_user_details/get_loggedin_user_details_state.dart';
 import 'package:ots_pocket/bloc/user/get_user_details/get_user_details_bloc.dart';
 import 'package:ots_pocket/bloc/user/get_user_details/get_user_details_state.dart';
@@ -10,9 +11,11 @@ import 'package:ots_pocket/consumeables.dart';
 import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/equipments.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
+import 'package:ots_pocket/timecard.dart';
 import 'package:ots_pocket/userManagementSceen.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 
+import 'WO.dart';
 import 'bloc/user/get_loggedin_user_details/get_loggedin_user_details_bloc.dart';
 import 'login_screen.dart';
 import 'main.dart';
@@ -31,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int? totalUser;
   int? nonActiveUser;
   bool? isnotification = false;
+  String username = "";
+  String costcenter = "";
+  bool? ismanager = false;
 
   @override
   void initState() {
@@ -100,7 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
               if (false) {
                 return AppIndicator.circularProgressIndicator;
               } else if (state1 is GetLoggedinUserDetailsLoadedState) {
-                if (state1.userDetails!.desig == "Manager") {
+                username = state1.userDetails!.fullname.toString();
+                costcenter = state1.userDetails!.empBranch.toString();
+                if (state1.userDetails!.desig == "Manager" ||
+                    state1.userDetails!.desig == "Admin") {
+                  ismanager = true;
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -152,6 +162,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       title: "Daily Reports",
                                       iconName: Icons.pages_outlined,
                                     ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: getCard(
+                                        cardBgColor: Color(0xFFf58ed5),
+                                        title: "Generate Time Card Report",
+                                        iconName: Icons.app_registration),
                                   ),
                                 ],
                               )
@@ -262,6 +282,55 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Divider(),
+                          ),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    "WORKFORCE MANAGEMENT",
+                                    style: TextStyle(
+                                      color: Color(0xFF000000),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24.0,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: getCard(
+                                          cardBgColor: Color(0xFF03DAC5),
+                                          title:
+                                              "Personnel \nutilization \ntracking",
+                                          iconName: Icons.task),
+                                    ),
+                                    Expanded(
+                                      child: getCard(
+                                          cardBgColor: Color(0xFF6200EE),
+                                          title:
+                                              "Technician\ncertification\ntracking",
+                                          iconName: Icons.task_rounded),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: getCard(
+                                          cardBgColor: Color(0xFF03DAC5),
+                                          title: "Safety credential tracking",
+                                          iconName: Icons.task),
+                                    ),
+                                  ],
+                                )
+                              ])
                         ],
                       ),
                     ),
@@ -368,6 +437,31 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (title == "Equipments") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EquimentScreen()));
+        } else if (title == "PO") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => POScreen(
+                        userid: username,
+                        costcenter: costcenter,
+                      )));
+        } else if (title == "Time Card") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TimeCardScreen(
+                        ismanager: ismanager,
+                        userid: username,
+                        costcenter: costcenter,
+                      )));
+        } else if (title == "WO") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WOScreen(
+                        branchid: costcenter,
+                        userid: username,
+                      )));
         } else {
           final snackBar = SnackBar(
             content: const Text(

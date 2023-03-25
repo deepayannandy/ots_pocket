@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ots_pocket/bloc/branch/branch_bloc.dart';
-import 'package:ots_pocket/bloc/branch/branch_event.dart';
-import 'package:ots_pocket/bloc/branch/branch_state.dart';
 import 'package:ots_pocket/bloc/laborRate/getLaborRate/get_labor_rate_state.dart';
 import 'package:ots_pocket/bloc/laborRate/labourRate_event.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
@@ -19,7 +16,7 @@ class designationBottomSheet {
   void branchBottomSheetDialog(
       {BuildContext? context,
       ValueChanged<String>? onSelectBranchValue,
-      String? catagory}) {
+      String? catagory,}) {
     desigBloc = BlocProvider.of<GetLaborRateBloc>(context!);
     desigBloc.add(GetLaborRateEvent(catagory: catagory!));
 
@@ -73,7 +70,7 @@ class designationBottomSheet {
                       } else if (state is GetLaborRateEmptyState) {
                         return EmptyTextWidget(
                           emptyMsg:
-                              "Sorry! currently branches are not available",
+                              "Sorry! currently designations are not available",
                         );
                       } else if (state is GetLaborRateLoadedState) {
                         return Expanded(

@@ -8,6 +8,7 @@ import 'package:ots_pocket/bloc/user/patch_User_details/user_patch_state.dart';
 import 'package:ots_pocket/models/consumeables_model.dart';
 import 'package:ots_pocket/widget_util/alert_pop_up_for_error_msg.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
+import 'package:ots_pocket/widget_util/purchaseRate_text_form_field.dart';
 import 'package:ots_pocket/widget_util/quantity_text_form_field.dart';
 import 'package:ots_pocket/widget_util/show_toast.dart';
 import 'package:ots_pocket/widget_util/unitRate_text_form_field.dart';
@@ -26,6 +27,7 @@ class ManageConsumeable extends StatefulWidget {
 class _ManageConsumeableState extends State<ManageConsumeable> {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController URController = TextEditingController();
+  final TextEditingController PRController = TextEditingController();
 
   GlobalKey<FormState> patchFormKey = GlobalKey<FormState>();
 
@@ -40,6 +42,7 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
   void initState() {
     quantityController.text = widget.selectedConsumeables!.stockQnt.toString();
     URController.text = widget.selectedConsumeables!.UR.toString();
+    PRController.text = widget.selectedConsumeables!.PR.toString();
     quantityController.addListener(() {
       setState(() {
         isQuantityTextFormFieldNotEmpty = quantityController.text.isNotEmpty;
@@ -156,7 +159,7 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Consumeable Name:",
+                                    "Consumable Name:",
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(
@@ -195,6 +198,11 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
                       ),
                       UnitRateTextFormField(
                           UnitRateNumberController: URController),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      PurchaseRateTextFormField(
+                          UnitRateNumberController: PRController),
                       const SizedBox(
                         height: 48.0,
                       ),
@@ -238,6 +246,7 @@ class _ManageConsumeableState extends State<ManageConsumeable> {
       ConsumeablesDetails updatedConsumable = ConsumeablesDetails(
           cId: widget.selectedConsumeables!.cId,
           UR: double.parse(URController.text.toString()),
+          PR: double.parse(PRController.text.trim()),
           stockQnt: int.parse(quantityController.text.trim()));
 
       BlocProvider.of<ConsumablePatchBloc>(context)

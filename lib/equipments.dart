@@ -10,7 +10,7 @@ import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/manage_equipment.dart';
 import 'package:ots_pocket/models/equipments_model.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EquimentScreen extends StatefulWidget {
@@ -224,16 +224,29 @@ class _EquimentScreenState extends State<EquimentScreen> {
                                                                   "Could not launch");
                                                             }
                                                           },
-                                                          child: QrImage(
-                                                            errorStateBuilder:
-                                                                (context,
-                                                                        error) =>
-                                                                    Text(error
-                                                                        .toString()),
+                                                          child: BarcodeWidget(
+                                                            barcode:
+                                                                Barcode.qrCode(
+                                                              errorCorrectLevel:
+                                                                  BarcodeQRCorrectionLevel
+                                                                      .high,
+                                                            ),
                                                             data: "https://tier1integrity.pocsofclients.com/EquipProfile?id=" +
                                                                 attd.eId
                                                                     .toString(),
+                                                            width: 200,
+                                                            height: 200,
                                                           ),
+                                                          // QrImage(
+                                                          //   errorStateBuilder:
+                                                          //       (context,
+                                                          //               error) =>
+                                                          //           Text(error
+                                                          //               .toString()),
+                                                          //   data: "https://tier1integrity.pocsofclients.com/EquipProfile?id=" +
+                                                          //       attd.eId
+                                                          //           .toString(),
+                                                          // ),
                                                         ),
                                                       ),
                                                     ],

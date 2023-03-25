@@ -9,7 +9,7 @@ import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/manage_consumeable.dart';
 import 'package:ots_pocket/models/consumeables_model.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ConsumeableScreen extends StatefulWidget {
@@ -227,16 +227,29 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                                                                   "Could not launch");
                                                             }
                                                           },
-                                                          child: QrImage(
-                                                            errorStateBuilder:
-                                                                (context,
-                                                                        error) =>
-                                                                    Text(error
-                                                                        .toString()),
+                                                          child: BarcodeWidget(
+                                                            barcode:
+                                                                Barcode.qrCode(
+                                                              errorCorrectLevel:
+                                                                  BarcodeQRCorrectionLevel
+                                                                      .high,
+                                                            ),
                                                             data: "https://tier1integrity.pocsofclients.com/ConsProfile?id=" +
                                                                 attd.cId
                                                                     .toString(),
+                                                            width: 200,
+                                                            height: 200,
                                                           ),
+                                                          // QrImage(
+                                                          //   errorStateBuilder:
+                                                          //       (context,
+                                                          //               error) =>
+                                                          //           Text(error
+                                                          //               .toString()),
+                                                          //   data: "https://tier1integrity.pocsofclients.com/ConsProfile?id=" +
+                                                          //       attd.cId
+                                                          //           .toString(),
+                                                          // ),
                                                         ),
                                                       ),
                                                     ],
@@ -317,19 +330,22 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                           fontSize: 16,
                           color: Colors.black,
                         )),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text("In Stock ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.black54,
                             )),
                         Text(consumeable.stockQnt.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 14,
                               color: consumeable.stockQnt! < 15
                                   ? Colors.red
                                   : Colors.green,
@@ -337,10 +353,10 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("Unit Rate ",
+                        Text("MSR ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.black54,
                             )),
                         Text(
@@ -350,7 +366,26 @@ class _ConsumeableScreenState extends State<ConsumeableScreen> {
                                     : consumeable.UR.toString()),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 14,
+                              color: Colors.green,
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("PR ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.black54,
+                            )),
+                        Text(
+                            "\$" +
+                                (consumeable.UR == null
+                                    ? "0"
+                                    : consumeable.PR.toString()),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
                               color: Colors.green,
                             )),
                       ],

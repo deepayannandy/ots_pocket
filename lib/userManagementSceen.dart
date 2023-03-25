@@ -12,7 +12,7 @@ import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:ots_pocket/my_drawer.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'bloc/user/delete_User/user_delete_bloc.dart';
@@ -155,15 +155,18 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                                             "Could not launch");
                                                       }
                                                     },
-                                                    child: QrImage(
-                                                      errorStateBuilder:
-                                                          (context, error) =>
-                                                              Text(error
-                                                                  .toString()),
+                                                    child: BarcodeWidget(
+                                                      barcode: Barcode.qrCode(
+                                                        errorCorrectLevel:
+                                                            BarcodeQRCorrectionLevel
+                                                                .high,
+                                                      ),
                                                       data:
                                                           "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
                                                               attd.sId
                                                                   .toString(),
+                                                      width: 200,
+                                                      height: 200,
                                                     ),
                                                   ),
                                                 ),

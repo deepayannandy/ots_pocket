@@ -30,6 +30,7 @@ class AddCon extends StatefulWidget {
 class _AddConState extends State<AddCon> {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  
 
   GlobalKey<FormState> patchFormKey = GlobalKey<FormState>();
 

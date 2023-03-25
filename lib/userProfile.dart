@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ots_pocket/bloc/user/user_event.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'bloc/user/patch_User_details/user_patch_bloc.dart';
@@ -76,15 +76,25 @@ class _UserProfileState extends State<UserProfile> {
                           print("Could not launch");
                         }
                       },
-                      child: QrImage(
+                      child: BarcodeWidget(
+                        barcode: Barcode.qrCode(
+                          errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+                        ),
                         data:
                             "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
                                 widget.loggedinuser!.sId!,
-                        size: 180,
-                        embeddedImage: AssetImage(
-                          "assets/images/userlogo.png",
-                        ),
+                        width: 160,
+                        height: 160,
                       ),
+                      //  QrImage(
+                      //   data:
+                      //       "https://tier1integrity.pocsofclients.com/UserProfile?id=" +
+                      //           widget.loggedinuser!.sId!,
+                      //   size: 180,
+                      //   embeddedImage: AssetImage(
+                      //     "assets/images/userlogo.png",
+                      //   ),
+                      // ),
                     ),
                   ),
                   Positioned(
