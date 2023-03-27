@@ -138,7 +138,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 20),
+                                                        fontSize: 18),
                                                   ),
                                                 ),
                                                 SizedBox(height: 15.0),
@@ -222,7 +222,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   Text(user.fullname ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
-                        fontSize: 24,
+                        fontSize: 18,
                         color: Colors.black,
                       )),
                   Spacer(),

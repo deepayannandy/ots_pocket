@@ -82,13 +82,43 @@ class EmployeeInfoWidget {
     return pw.TableRow(
       children: [
         ReportWidgetUtil().getText(
-            data: worker[1],
+            data: worker[0].toString(),
             isLable: false,
             flexValue: 9,
             isTextAlignLeft: true,
             bgColor: PdfColors.white),
         ReportWidgetUtil().getText(
-            data: "-",
+            data: worker[1].toString(),
+            isLable: false,
+            flexValue: 5,
+            isTextAlignLeft: false,
+            bgColor: PdfColors.white),
+        ReportWidgetUtil().getText(
+            data: worker[2].toString(),
+            isLable: false,
+            flexValue: 3,
+            isTextAlignLeft: false,
+            bgColor: PdfColors.white),
+        ReportWidgetUtil().getText(
+            data: worker[3].toString(),
+            isLable: false,
+            flexValue: 3,
+            isTextAlignLeft: false,
+            bgColor: PdfColors.white),
+        ReportWidgetUtil().getText(
+            data: worker[4].toString(),
+            isLable: false,
+            flexValue: 3,
+            isTextAlignLeft: false,
+            bgColor: PdfColors.white),
+        ReportWidgetUtil().getText(
+            data: worker[5].toString(),
+            isLable: false,
+            flexValue: 3,
+            isTextAlignLeft: false,
+            bgColor: PdfColors.white),
+        ReportWidgetUtil().getText(
+            data: worker[6].toString(),
             isLable: false,
             flexValue: 3,
             isTextAlignLeft: false,
@@ -102,37 +132,7 @@ class EmployeeInfoWidget {
         ReportWidgetUtil().getText(
             data: "-",
             isLable: false,
-            flexValue: 3,
-            isTextAlignLeft: false,
-            bgColor: PdfColors.white),
-        ReportWidgetUtil().getText(
-            data: "-",
-            isLable: false,
-            flexValue: 3,
-            isTextAlignLeft: false,
-            bgColor: PdfColors.white),
-        ReportWidgetUtil().getText(
-            data: "-",
-            isLable: false,
-            flexValue: 3,
-            isTextAlignLeft: false,
-            bgColor: PdfColors.white),
-        ReportWidgetUtil().getText(
-            data: "-",
-            isLable: false,
-            flexValue: 3,
-            isTextAlignLeft: false,
-            bgColor: PdfColors.white),
-        ReportWidgetUtil().getText(
-            data: "-",
-            isLable: false,
-            flexValue: 3,
-            isTextAlignLeft: false,
-            bgColor: PdfColors.white),
-        ReportWidgetUtil().getText(
-            data: "-",
-            isLable: false,
-            flexValue: 14,
+            flexValue: 9,
             isTextAlignLeft: false,
             bgColor: PdfColors.white),
       ],

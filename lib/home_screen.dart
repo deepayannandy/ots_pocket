@@ -8,10 +8,12 @@ import 'package:ots_pocket/bloc/user/get_user_details/get_user_details_bloc.dart
 import 'package:ots_pocket/bloc/user/get_user_details/get_user_details_state.dart';
 import 'package:ots_pocket/bloc/user/user_event.dart';
 import 'package:ots_pocket/consumeables.dart';
+import 'package:ots_pocket/customers.dart';
 import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/equipments.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
 import 'package:ots_pocket/timecard.dart';
+import 'package:ots_pocket/timecardreport.dart';
 import 'package:ots_pocket/userManagementSceen.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int? nonActiveUser;
   bool? isnotification = false;
   String username = "";
+  String userid = "";
   String costcenter = "";
   bool? ismanager = false;
 
@@ -107,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return AppIndicator.circularProgressIndicator;
               } else if (state1 is GetLoggedinUserDetailsLoadedState) {
                 username = state1.userDetails!.fullname.toString();
+                userid = state1.userDetails!.sId.toString();
                 costcenter = state1.userDetails!.empBranch.toString();
                 if (state1.userDetails!.desig == "Manager" ||
                     state1.userDetails!.desig == "Admin") {
@@ -169,8 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Expanded(
                                     child: getCard(
-                                        cardBgColor: Color(0xFFf58ed5),
-                                        title: "Generate Time Card Report",
+                                        cardBgColor:
+                                            Color.fromARGB(255, 160, 33, 120),
+                                        title: "Generate Employee Time Card",
                                         iconName: Icons.app_registration),
                                   ),
                                 ],
@@ -306,14 +311,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Expanded(
                                       child: getCard(
-                                          cardBgColor: Color(0xFF03DAC5),
+                                          cardBgColor:
+                                              Color.fromARGB(255, 47, 114, 5),
                                           title:
                                               "Personnel \nutilization \ntracking",
                                           iconName: Icons.task),
                                     ),
                                     Expanded(
                                       child: getCard(
-                                          cardBgColor: Color(0xFF6200EE),
+                                          cardBgColor:
+                                              Color.fromARGB(255, 158, 49, 241),
                                           title:
                                               "Technician\ncertification\ntracking",
                                           iconName: Icons.task_rounded),
@@ -324,7 +331,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Expanded(
                                       child: getCard(
-                                          cardBgColor: Color(0xFF03DAC5),
+                                          cardBgColor:
+                                              Color.fromARGB(255, 13, 117, 161),
                                           title: "Safety credential tracking",
                                           iconName: Icons.task),
                                     ),
@@ -336,6 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
+                  ismanager = false;
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 16.0),
@@ -437,6 +446,13 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (title == "Equipments") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EquimentScreen()));
+        } else if (title == "Customers") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CustomersScreen(
+                        costcenter: costcenter,
+                      )));
         } else if (title == "PO") {
           Navigator.push(
               context,
@@ -451,7 +467,18 @@ class _HomeScreenState extends State<HomeScreen> {
               MaterialPageRoute(
                   builder: (context) => TimeCardScreen(
                         ismanager: ismanager,
-                        userid: username,
+                        userid: userid,
+                        username: username,
+                        costcenter: costcenter,
+                      )));
+        } else if (title == "Generate Employee Time Card") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EmpTimeCardReport(
+                        ismanager: ismanager,
+                        userid: userid,
+                        username: username,
                         costcenter: costcenter,
                       )));
         } else if (title == "WO") {

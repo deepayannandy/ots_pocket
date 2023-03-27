@@ -453,8 +453,8 @@ class _ApproveWoState extends State<ApproveWo> {
       isloading = true;
     });
     var headers = await _getHeaderConfig();
-    var url = Uri.http('54.160.215.70:6622',
-        '/api/report/dts/' + widget.newWo!.woID.toString());
+    var url = Uri.http(
+        '54.160.215.70:6622', '/api/report/dts/' + widget.newWo!.woID.toString());
     var response = await http.get(
       url,
       headers: headers,
@@ -467,14 +467,13 @@ class _ApproveWoState extends State<ApproveWo> {
                 (json) => DailyCustomerSheet.fromJson(json))
             .toList();
         if (allsheets.length > 0) {
-          isloading = false;
-          final pdfFile =
-              await DailyCustomerTimesheetPdf.generate(allsheets[0],remarks.text.toString());
+          setState(() {
+            isloading = false;
+          });
+          final pdfFile = await DailyCustomerTimesheetPdf.generate(
+              allsheets[0], remarks.text.toString());
           PdfMethods.openFile(pdfFile);
-          
         }
-
-        
       });
     } else {
       print(response.body);

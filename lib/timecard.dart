@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ots_pocket/addtimecard.dart';
+import 'package:ots_pocket/approvetimecard.dart';
 import 'package:ots_pocket/bloc/consumeable/get_consumeable_deyails/get_consumeable_details_bloc.dart';
 import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/main.dart';
@@ -18,10 +20,12 @@ import 'add_po.dart';
 
 class TimeCardScreen extends StatefulWidget {
   final String? userid;
+  final String? username;
   final String? costcenter;
   final bool? ismanager;
   const TimeCardScreen(
       {required this.userid,
+      required this.username,
       required this.costcenter,
       required this.ismanager,
       Key? key})
@@ -94,7 +98,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                         builder: (context) => AddTimeCardScreen(
                               costcenter: widget.costcenter,
                               ismanager: false,
-                              userid: widget.userid,
+                              userid: widget.username,
                             )));
               }
             },
@@ -178,7 +182,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                                                         builder: (context) =>
                                                             AddPo(
                                                               username: widget
-                                                                  .userid
+                                                                  .username
                                                                   .toString(),
                                                             )));
                                               }),
@@ -333,7 +337,9 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 foregroundColor: Colors.black,
               ),
               title: Text(
-                tc.empname.toString(),
+                tc.empname.toString() +
+                    "\nDate: " +
+                    tc.submitdate.toString().split(" ")[0],
                 style: TextStyle(
                     color: Colors.black87,
                     fontSize: 20,
@@ -342,24 +348,29 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
               subtitle: Text(
                 "WO: " +
                     tc.wo.toString() +
-                    "\nDate: " +
-                    tc.submitdate.toString().split(" ")[0] +
                     "\nST: " +
                     tc.st.toString() +
                     "\tOT: " +
                     tc.ot.toString() +
                     "\tTT: " +
                     tc.tt.toString(),
-                style: TextStyle(color: Colors.black87, fontSize: 16),
+                style: TextStyle(color: Colors.black87, fontSize: 14),
               ),
               trailing: widget.ismanager == true
                   ? IconButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ApproveTimeCardScreen(
+                                      timecard: tc,
+                                    )));
+                      },
                       icon: Icon(
                         Icons.arrow_circle_right,
                         color: Colors.green,
                       ))
-                  : Container(),
+                  : null,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
@@ -384,7 +395,7 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
                 child: Text(
                   tc.status.toString(),
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       color: tc.status.toString() == "Submitted"
                           ? Colors.orange
                           : Colors.green),
@@ -412,7 +423,12 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
       isLoaded = true;
     });
     var headers = await _getHeaderConfig();
-    var url = Uri.http('54.160.215.70:6622', '/api/timecard/');
+    // Fluttertoast.showToast(msg: widget.username.toString());
+    var url = widget.ismanager == true
+        ? Uri.http(
+            '54.160.215.70:6622', '/api/timecard/' + widget.costcenter.toString())
+        : Uri.http('54.160.215.70:6622',
+            '/api/timecard/byuser/' + widget.userid.toString());
     var response = await http.get(
       url,
       headers: headers,
@@ -423,8 +439,8 @@ class _TimeCardScreenState extends State<TimeCardScreen> {
             .decode(response.body)
             .map<TimecardData>((json) => TimecardData.fromJson(json))
             .toList();
-
         _timecard = _timecard!.reversed.toList();
+        // Fluttertoast.showToast(msg: _timecard!.length.toString());
         // Fluttertoast.showToast(msg: "get" + _allpo.toString());
         isLoaded = false;
       });

@@ -4,9 +4,12 @@ import 'package:pdf/pdf.dart';
 
 import '../app_constants.dart';
 
-
 class TimeCardDetailsWidget {
-  pw.Column getWidget() {
+  pw.Column getWidget({
+    required List carddata,
+    required String totalpo,
+    required String totalnopo,
+  }) {
     return pw.Column(
       children: [
         pw.Table(
@@ -64,8 +67,8 @@ class TimeCardDetailsWidget {
                     bgColor: PdfColors.white),
               ],
             ),
-            for (var i = 0; i < 14; i++) ...[
-              getEmployeeDetailsWidget(),
+            for (var i = 0; i < carddata.length; i++) ...[
+              getEmployeeDetailsWidget(carddata[i]),
             ],
             pw.TableRow(
               children: [
@@ -88,13 +91,13 @@ class TimeCardDetailsWidget {
                     isTextAlignLeft: true,
                     bgColor: PdfColors.white),
                 TimeCardWidgetUtil().getText(
-                    data: "123.00",
+                    data: totalpo,
                     isLable: true,
                     flexValue: 3,
                     isTextAlignLeft: true,
                     bgColor: PdfColors.white),
                 TimeCardWidgetUtil().getText(
-                    data: "0.00",
+                    data: totalnopo,
                     isLable: true,
                     flexValue: 3,
                     isTextAlignLeft: true,
@@ -126,53 +129,53 @@ class TimeCardDetailsWidget {
   }
 }
 
-pw.TableRow getEmployeeDetailsWidget() {
+pw.TableRow getEmployeeDetailsWidget(List data) {
   return pw.TableRow(
     children: [
       TimeCardWidgetUtil().getText(
-          data: "04/12/2022",
+          data: data[0].toString(),
           isLable: false,
           flexValue: 4,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "T1I22-PLV-0088-00",
+          data: data[1].toString(),
           isLable: false,
           flexValue: 4,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "Formosa",
+          data: data[2].toString(),
           isLable: false,
           flexValue: 3,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "12:00",
+          data: data[3].toString(),
           isLable: false,
           flexValue: 3,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "",
+          data: data[4].toString(),
           isLable: false,
           flexValue: 3,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "OL2",
+          data: data[5].toString(),
           isLable: false,
           flexValue: 2,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "",
+          data: data[6].toString(),
           isLable: false,
           flexValue: 3,
           isTextAlignLeft: true,
           bgColor: PdfColors.white),
       TimeCardWidgetUtil().getText(
-          data: "Complete",
+          data: data[7].toString(),
           isLable: false,
           flexValue: 3,
           isTextAlignLeft: true,

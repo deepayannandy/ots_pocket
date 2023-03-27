@@ -30,9 +30,9 @@ class DailyCustomerTimesheet extends StatelessWidget {
             ElevatedButton(
               child: const Text("Time Card"),
               onPressed: () async {
-                final pdfFile = await TimeCardPdf.generate();
+                // final pdfFile = await TimeCardPdf.generate();
 
-                PdfMethods.openFile(pdfFile);
+                // PdfMethods.openFile(pdfFile);
               },
             ),
             const SizedBox(height: 48.0,),

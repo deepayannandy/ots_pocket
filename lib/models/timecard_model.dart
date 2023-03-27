@@ -12,7 +12,9 @@ class TimecardData {
   dynamic st;
   dynamic ot;
   dynamic tt;
+  dynamic hh;
   String? ap_date;
+  String? costcenter;
 
   TimecardData(
       {this.Id,
@@ -23,11 +25,13 @@ class TimecardData {
       this.ot,
       this.po,
       this.shift,
+      this.hh,
       this.st,
       this.starttime,
       this.status,
       this.submitdate,
       this.tt,
+      this.costcenter,
       this.wo});
 
   TimecardData.fromJson(Map<String, dynamic> json) {
@@ -44,6 +48,8 @@ class TimecardData {
     st = json['st'];
     ot = json['ot'];
     tt = json['tt'];
+    hh = json['hh'];
+    costcenter = json['costcenter'];
     ap_date = json['ap_date'];
   }
 
@@ -62,6 +68,8 @@ class TimecardData {
     data['st'] = this.st;
     data['ot'] = this.ot;
     data['tt'] = this.tt;
+    data['hh'] = this.hh;
+    data['costcenter'] = this.costcenter;
     data['ap_date'] = this.ap_date;
 
     return data;

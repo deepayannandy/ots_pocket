@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 
@@ -22,9 +23,9 @@ class TimeCardWidgetUtil {
     );
   }
 
-  pw.Text getDateLable({required String text}) {
+  pw.Text getDateLable({required String text, required String date}) {
     return pw.Text(
-      "$text  04/12/2002",
+      "$text $date",
       style: pw.TextStyle(
         fontWeight: pw.FontWeight.normal,
       ),
@@ -53,9 +54,18 @@ class TimeCardWidgetUtil {
     );
   }
 
-  pw.Container getBox() {
+  pw.Container getBox(
+    text,
+  ) {
     return pw.Container(
       height: 32.0,
+      width: 400,
+      child: pw.Text(
+        "  " + text,
+        style: pw.TextStyle(
+          fontSize: 20.0,
+        ),
+      ),
       decoration: pw.BoxDecoration(
         border: pw.Border.all(width: 1.0, color: PdfColors.black),
       ),

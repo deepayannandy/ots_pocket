@@ -8,11 +8,13 @@ import 'package:ots_pocket/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:ots_pocket/models/timecard_model.dart';
 import 'package:ots_pocket/widget_util/End_Time_Form_Field.dart';
+import 'package:ots_pocket/widget_util/Holiday_Time_Form_Field.dart';
 import 'package:ots_pocket/widget_util/Start_Time_Form_Field.dart';
 import 'package:ots_pocket/widget_util/Travel_Time_Form_Field.dart';
 import 'package:ots_pocket/widget_util/app_indicator.dart';
 import 'package:ots_pocket/widget_util/jt_text_form_field.dart';
 import 'package:ots_pocket/widget_util/name_text_form_field.dart';
+import 'package:ots_pocket/widget_util/select_dework_shift_text_form_field.dart';
 
 import 'models/user_details_model.dart';
 
@@ -24,7 +26,8 @@ class AddTimeCardScreen extends StatefulWidget {
       {required this.userid,
       required this.costcenter,
       required this.ismanager,
-      Key? key})
+      Key? key,
+      String? username})
       : super(key: key);
 
   @override
@@ -40,7 +43,10 @@ class _AddTimeCardScreenState extends State<AddTimeCardScreen> {
   double st = 0.0;
   double ot = 0.0;
   final TextEditingController namecontroller = TextEditingController();
+  final TextEditingController hhcontroller = TextEditingController(text: "0");
   final TextEditingController taskcontroller = TextEditingController();
+  final TextEditingController workshiftcontroller =
+      TextEditingController(text: "Day");
   final TextEditingController starttime =
       TextEditingController(text: "08 : 00");
   final TextEditingController endtime = TextEditingController(text: "17 : 00");
@@ -113,148 +119,160 @@ class _AddTimeCardScreenState extends State<AddTimeCardScreen> {
       ),
       body: isLoaded
           ? AppIndicator.circularProgressIndicator
-          : Padding(
-              padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
-              child: Column(
-                children: [
-                  NameTextFormField(nameController: namecontroller),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  JTTextFormField(
-                    jtController: taskcontroller,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Start_Time(
-                          nameController: starttime,
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () async {
-                            StartPicked = await showTimePicker(
-                              initialTime: TimeOfDay.now(),
-                              context: context,
-                            );
-
-                            if (StartPicked != null) {
-                              setState(() {
-                                starttime.text = timeformater(
-                                    StartPicked!); //set the value of text field.
-                              });
-                            } else {
-                              print("Time is not selected");
-                            }
-                          },
-                          child: Icon(
-                            Icons.timer,
-                            size: 30,
-                          ))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: End_Time(
-                        nameController: endtime,
-                      )),
-                      TextButton(
-                          onPressed: () async {
-                            EndPicked = await showTimePicker(
-                              initialTime: TimeOfDay.now(),
-                              context: context,
-                            );
-
-                            if (EndPicked != null) {
-                              setState(() {
-                                endtime.text = timeformater(
-                                    EndPicked!); //set the value of text field.
-                                calculatetime(StartPicked!, EndPicked!);
-                              });
-                            } else {
-                              print("Time is not selected");
-                            }
-                          },
-                          child: Icon(
-                            Icons.timer,
-                            size: 30,
-                          ))
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Travel_Time(nameController: traveltime),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text.rich(
-                    TextSpan(
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+                child: Column(
+                  children: [
+                    NameTextFormField(nameController: namecontroller),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    JTTextFormField(
+                      jtController: taskcontroller,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    SelectWorkShiftTextFormField(
+                      selectDesignationController: workshiftcontroller,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
                       children: [
-                        TextSpan(
-                          text: 'ST: ',
-                          style: TextStyle(
-                            fontSize: 20,
+                        Expanded(
+                          child: Start_Time(
+                            nameController: starttime,
                           ),
                         ),
-                        TextSpan(
-                          text: st.toString(),
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: ' Hours\t\t'),
-                        TextSpan(
-                          text: 'OT: ',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ot.toString(),
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: ' Hours'),
+                        TextButton(
+                            onPressed: () async {
+                              StartPicked = await showTimePicker(
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                              );
+
+                              if (StartPicked != null) {
+                                setState(() {
+                                  starttime.text = timeformater(
+                                      StartPicked!); //set the value of text field.
+                                });
+                              } else {
+                                print("Time is not selected");
+                              }
+                            },
+                            child: Icon(
+                              Icons.timer,
+                              size: 30,
+                            ))
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 26.0,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(
-                          fontSize: 18.0,
-                          color: Color(0xFF000000),
-                          fontWeight: FontWeight.bold),
-                      minimumSize: const Size.fromHeight(48.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: End_Time(
+                          nameController: endtime,
+                        )),
+                        TextButton(
+                            onPressed: () async {
+                              EndPicked = await showTimePicker(
+                                initialTime: TimeOfDay.now(),
+                                context: context,
+                              );
+
+                              if (EndPicked != null) {
+                                setState(() {
+                                  endtime.text = timeformater(
+                                      EndPicked!); //set the value of text field.
+                                  calculatetime(StartPicked!, EndPicked!);
+                                });
+                              } else {
+                                print("Time is not selected");
+                              }
+                            },
+                            child: Icon(
+                              Icons.timer,
+                              size: 30,
+                            ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Travel_Time(nameController: traveltime),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Holiday_Time(nameController: hhcontroller),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'ST: ',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          TextSpan(
+                            text: st.toString(),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: ' Hours\t\t'),
+                          TextSpan(
+                            text: 'OT: ',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ot.toString(),
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: ' Hours'),
+                        ],
                       ),
-                      surfaceTintColor: Color(0xFF157B4F),
                     ),
-                    onPressed: () {
-                      if (st > 0)
-                        addTC();
-                      else
-                        Fluttertoast.showToast(
-                            msg: "Please Select the Start and End Time");
-                    },
-                    child: const Text(
-                      "Add",
+                    const SizedBox(
+                      height: 26.0,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                ],
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(
+                            fontSize: 18.0,
+                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.bold),
+                        minimumSize: const Size.fromHeight(48.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                        surfaceTintColor: Color(0xFF157B4F),
+                      ),
+                      onPressed: () {
+                        if (st > 0)
+                          addTC();
+                        else
+                          Fluttertoast.showToast(
+                              msg: "Please Select the Start and End Time");
+                      },
+                      child: const Text(
+                        "Add",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                  ],
+                ),
               ),
             ),
       drawer: MyDrower1(),
@@ -280,7 +298,7 @@ class _AddTimeCardScreenState extends State<AddTimeCardScreen> {
       isLoaded = true;
     });
     var headers = await _getHeaderConfig();
-    var url = Uri.http('localhost:6622', '/api/user/mydata/me');
+    var url = Uri.http('54.160.215.70:6622', '/api/user/mydata/me');
     var response = await http.get(
       url,
       headers: headers,
@@ -312,7 +330,7 @@ class _AddTimeCardScreenState extends State<AddTimeCardScreen> {
   }
 
   Future<void> addTC() async {
-    Fluttertoast.showToast(msg: "Creating new PO#");
+    // Fluttertoast.showToast(msg: "Creating new PO#");
     setState(() {
       isLoaded = true;
     });
@@ -326,10 +344,12 @@ class _AddTimeCardScreenState extends State<AddTimeCardScreen> {
       endtime: endtime.text.toString(),
       wo: taskcontroller.text.toString(),
       submitdate: DateTime.now().toString(),
-      shift: "day",
+      costcenter: widget.costcenter,
+      shift: workshiftcontroller.text,
+      hh: hhcontroller.text,
     );
     var headers = await _getHeaderConfig();
-    var url = Uri.http('localhost:6622', '/api/timecard/');
+    var url = Uri.http('54.160.215.70:6622', '/api/timecard/');
     var response =
         await http.post(url, headers: headers, body: jsonEncode(newCard));
     if (response.statusCode == 200 || response.statusCode == 201) {

@@ -41,11 +41,7 @@ class _WOScreenState extends State<WOScreen> {
   List<WODetails>? allpo;
   List<WODetails>? _allpo;
   List<WODetails>? filteredPO;
-  List<String> reporttype = [
-    "Daily Customer Timesheet",
-    "Time Card",
-    "Invoice"
-  ];
+  List<String> reporttype = ["Daily Customer Timesheet", "Invoice"];
   final TextEditingController searchController = TextEditingController();
   final TextEditingController costcenterController =
       TextEditingController(text: "All");
@@ -425,7 +421,7 @@ class _WOScreenState extends State<WOScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return Container(
-                        height: 300,
+                        height: 200,
                         child: Column(
                           children: [
                             SizedBox(
