@@ -35,7 +35,7 @@ class DesignationCatagoryBottomSheet {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Select services",
+                          "Select department",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,

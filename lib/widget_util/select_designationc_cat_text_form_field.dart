@@ -4,9 +4,10 @@ import 'package:ots_pocket/widget_util/designation_catagory_bootom_sheet.dart';
 class SelectDesignationCatTextFormField extends StatelessWidget {
   final TextEditingController? selectDesignationController;
 
-  const SelectDesignationCatTextFormField(
-      {@required this.selectDesignationController, Key? key})
-      : super(key: key);
+  const SelectDesignationCatTextFormField({
+    @required this.selectDesignationController,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class SelectDesignationCatTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         hintText: "Category",
-        labelText: "Select services",
+        labelText: "Select department",
         suffixIcon: Icon(
           Icons.arrow_drop_down,
           color: Color(0xFF000000),

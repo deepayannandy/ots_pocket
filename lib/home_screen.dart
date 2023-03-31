@@ -12,6 +12,8 @@ import 'package:ots_pocket/customers.dart';
 import 'package:ots_pocket/drawer1.dart';
 import 'package:ots_pocket/equipments.dart';
 import 'package:ots_pocket/models/user_details_model.dart';
+import 'package:ots_pocket/personalUtilizationSceen.dart';
+import 'package:ots_pocket/technicanCertificationScreen.dart';
 import 'package:ots_pocket/timecard.dart';
 import 'package:ots_pocket/timecardreport.dart';
 import 'package:ots_pocket/userManagementSceen.dart';
@@ -443,6 +445,16 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (title == "Consumables") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => ConsumeableScreen()));
+        } else if (title == "Personnel \nutilization \ntracking") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UserUtilizationScreen()));
+        } else if (title == "Technician\ncertification\ntracking") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TechCertificationScreen(
+                        branchid: costcenter,
+                      )));
         } else if (title == "Equipments") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => EquimentScreen()));

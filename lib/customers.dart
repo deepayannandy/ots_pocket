@@ -19,7 +19,6 @@ class CustomersScreen extends StatefulWidget {
   @override
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
-
 class _CustomersScreenState extends State<CustomersScreen> {
   bool isLoaded = false;
   List<CustomerDetails>? customers;
